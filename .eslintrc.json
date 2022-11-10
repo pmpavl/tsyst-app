@@ -1,0 +1,43 @@
+{
+  "env": {
+    "es2022": true,
+    "browser": true,
+    "node": true
+  },
+  "globals": {
+    "React": true,
+    "JSX": true
+  },
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "next",
+    "airbnb-typescript",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ]
+  }
+}
