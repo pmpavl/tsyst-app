@@ -14,7 +14,7 @@
     "lib": [
       "DOM",
       "DOM.Iterable",
-      "ESNext",
+      "ESNext"
     ],
     "module": "ESNext",
     "moduleResolution": "Node",
@@ -34,13 +34,19 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ESNext",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": [
-    "next.config.mjs",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx",
+    "**/*.tsx"
   ],
   "exclude": [
-    "**/node_modules",
+    "node_modules"
   ]
 }
