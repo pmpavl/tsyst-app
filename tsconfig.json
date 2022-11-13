@@ -24,8 +24,24 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
+    "paths": {
+      "@/context": [
+        "context"
+      ],
+      "@/provider": [
+        "provider"
+      ],
+      "@/theme": [
+        "theme"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "preserveConstEnums": true,
     "removeComments": true,
     "resolveJsonModule": true,
@@ -33,19 +49,14 @@
     "sourceMap": true,
     "strict": true,
     "strictNullChecks": true,
-    "target": "ESNext",
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    "target": "ESNext"
   },
   "include": [
     "next-env.d.ts",
     "next.config.mjs",
-    ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
