@@ -1,11 +1,11 @@
-import { PaletteModeProvider, ThemeProvider } from '@/provider';
+import { AppMetaProvider, ThemeProvider } from '@/context';
 
 export default function Providers({ children }: React.PropsWithChildren): JSX.Element {
   return (
-    <PaletteModeProvider>
+    <AppMetaProvider>
       <ThemeProvider>
         {children}
       </ThemeProvider>
-    </PaletteModeProvider>
+    </AppMetaProvider>
   );
 }

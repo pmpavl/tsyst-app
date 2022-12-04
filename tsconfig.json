@@ -30,11 +30,20 @@
       "@/context": [
         "context"
       ],
-      "@/provider": [
-        "provider"
-      ],
       "@/theme": [
         "theme"
+      ],
+      "@/components": [
+        "components"
+      ],
+      "@/customs": [
+        "components/customs"
+      ],
+      "@/styles": [
+        "components/styles"
+      ],
+      "@/utils": [
+        "utils"
       ]
     },
     "plugins": [

@@ -1,8 +1,16 @@
+/**
+ * Пока рендер на клиенте, потому что в Next.js v13 бага связанная с тем,
+ * что MUI использует emotion под копотом.
+ *
+ * Issue: https://github.com/vercel/next.js/issues/41994
+ */
 'use client';
 
 import React from 'react';
 import { Container } from '@mui/material';
-import Providers from './providers';
+import { AppMetaContext, Providers } from '@/context';
+import { Header, Footer } from '@/components';
+import { CircularProgress } from '@/customs';
 
 export default function RootLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
@@ -14,21 +22,56 @@ export default function RootLayout({ children }: React.PropsWithChildren): JSX.E
             disableGutters
             maxWidth={false}
             sx={{
-              padding: '0px',
+              alignItems: 'center',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
               justifyContent: 'flex-start',
-              width: '100%',
-              maxWidth: '80rem',
               minHeight: '100vh',
-              textTransform: 'none',
+              width: '100%',
             }}
           >
-            {children}
+            <AppMetaContext.Consumer>
+              {({ isLoading }) => (
+                isLoading
+                  ? (
+                    <Container
+                      component='main'
+                      disableGutters
+                      maxWidth={false}
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        height: '100vh',
+                        width: '100%',
+                      }}
+                    >
+                      <CircularProgress />
+                    </Container>
+                  )
+                  : (
+                    <> {/** Root content */}
+                      <Header />
+                      <Container
+                        component='main'
+                        disableGutters
+                        maxWidth={false}
+                        sx={{
+                          display: 'block',
+                          maxWidth: 'lg',
+                          paddingX: '32px',
+                        }}
+                      >
+                        {children}
+                      </Container>
+                      <Footer />
+                    </>
+                  )
+              )}
+            </AppMetaContext.Consumer>
           </Container>
         </Providers>
-      </body>
-    </html>
+      </body >
+    </html >
   );
 }
