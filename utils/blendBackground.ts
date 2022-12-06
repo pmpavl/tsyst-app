@@ -19,23 +19,11 @@ export default function blendBackground(background: string, foreground: string, 
   const backgroundValuesA = backgroundValues.length === 4 ? backgroundValues[3] : 1;
 
   const blend = normal(
-    {
-      r: backgroundValues[0],
-      g: backgroundValues[1],
-      b: backgroundValues[2],
-      a: backgroundValuesA,
-    },
-    {
-      r: foregroundValues[0],
-      g: foregroundValues[1],
-      b: foregroundValues[2],
-      a: foregroundAlpha,
-    },
+    { r: backgroundValues[0], g: backgroundValues[1], b: backgroundValues[2], a: backgroundValuesA },
+    { r: foregroundValues[0], g: foregroundValues[1], b: foregroundValues[2], a: foregroundAlpha },
   );
 
-  if (blend.a === 1) {
-    return rgbToHex(`rgb(${blend.r}, ${blend.g}, ${blend.b})`);
-  }
-
-  return rgbToHex(`rgba(${blend.r}, ${blend.g}, ${blend.b}, ${blend.a})`);
+  return blend.a === 1
+    ? rgbToHex(`rgb(${blend.r}, ${blend.g}, ${blend.b})`)
+    : rgbToHex(`rgba(${blend.r}, ${blend.g}, ${blend.b}, ${blend.a})`);
 }
