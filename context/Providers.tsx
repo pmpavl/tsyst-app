@@ -1,11 +1,10 @@
-import { AppMetaProvider, ThemeProvider } from '@/context';
+import React from 'react';
+import { ThemeProvider } from '@/context';
 
 export default function Providers({ children }: React.PropsWithChildren): JSX.Element {
   return (
-    <AppMetaProvider>
-      <ThemeProvider>
-        {children}
-      </ThemeProvider>
-    </AppMetaProvider>
+    <ThemeProvider>
+      {children}
+    </ThemeProvider>
   );
 }

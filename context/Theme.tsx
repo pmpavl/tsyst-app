@@ -1,62 +1,56 @@
+'use client';
 import React from 'react';
-import { Ubuntu } from '@next/font/google';
-import { NextFont } from '@next/font/dist/types';
-import { ThemeProvider as MuiThemeProvider, CssBaseline, createTheme, responsiveFontSizes } from '@mui/material';
-import { AppMetaContext } from '@/context';
-import { paletteLight, paletteDark, elevationLight, elevationDark } from '@/theme';
 
-const ubuntu: NextFont = Ubuntu({ weight: '400', preload: true, subsets: ['cyrillic', 'latin'] });
+const MODE_KEY = 'mode';
+
+export type Mode = 'light' | 'dark';
+export type Theme = {
+  mode: Mode
+  setMode: (mode: Mode) => void
+  toggleMode: () => void
+};
+
+export const ThemeContext = React.createContext<Theme>({} as Theme);
+
+type State = { mode: Mode };
 
 export default class ThemeProvider extends React.Component<React.PropsWithChildren> {
-  static contextType = AppMetaContext;
+  state: State = { mode: 'light' };
 
-  declare context: React.ContextType<typeof AppMetaContext>;
+  constructor(props: React.PropsWithChildren) {
+    super(props);
 
-  getPaletteOptions = () => {
-    const { paletteMode } = this.context;
+    if (typeof window !== 'undefined') { this.state.mode = this.getLocalStorageMode(); }
+  }
 
-    return paletteMode === 'light' ? paletteLight : paletteDark;
+  setMode = (mode: Mode): void => {
+    this.setState({ mode });
+    localStorage.setItem(MODE_KEY, mode);
+
+    const className = document.documentElement.classList;
+    if (mode === 'dark') className.add('dark'); else className.remove('dark');
   };
 
-  getElevation = () => {
-    const { paletteMode } = this.context;
+  toggleMode = (): void => this.setMode(this.state.mode === 'light' ? 'dark' : 'light');
 
-    return paletteMode === 'light' ? elevationLight : elevationDark;
+  getLocalStorageMode = (): Mode => {
+    const lsMode = localStorage.getItem(MODE_KEY);
+
+    return lsMode === null ? 'light' : lsMode as Mode;
   };
+
+  componentDidMount() { return this.setMode(this.getLocalStorageMode()); }
+
+  shouldComponentUpdate(_: never, nextState: State) { return nextState.mode === this.state.mode ? false : true; }
 
   render() {
-    const { children } = this.props;
-    const theme = createTheme({
-      palette: this.getPaletteOptions(),
-      elevation: this.getElevation(),
-      breakpoints: {
-        values: {
-          xs: 0,
-          sm: 600,
-          md: 900,
-          lg: 1440,
-          xl: 1920,
-        },
-      },
-      opacities: {
-        opacity8: 0.08,
-        opacity12: 0.12,
-        opacity16: 0.16,
-        opacity38: 0.38,
-      },
-      typography: {
-        fontFamily: [
-          ubuntu.style.fontFamily,
-          'sans-serif',
-        ].join(','),
-      },
-    });
+    const { mode } = this.state;
+    const { setMode, toggleMode } = this;
 
     return (
-      <MuiThemeProvider theme={responsiveFontSizes(theme)}>
-        <CssBaseline />
-        {children}
-      </MuiThemeProvider >
+      <ThemeContext.Provider value={{ mode, setMode, toggleMode }}>
+        {this.props.children}
+      </ThemeContext.Provider>
     );
   }
 }

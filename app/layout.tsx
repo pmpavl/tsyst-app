@@ -1,77 +1,24 @@
-/**
- * Пока рендер на клиенте, потому что в Next.js v13 бага связанная с тем,
- * что MUI использует emotion под копотом.
- *
- * Issue: https://github.com/vercel/next.js/issues/41994
- */
-'use client';
-
 import React from 'react';
-import { Container } from '@mui/material';
-import { AppMetaContext, Providers } from '@/context';
-import { Header, Footer } from '@/components';
-import { CircularProgress } from '@/customs';
+import localFont from '@next/font/local';
+import { Providers } from '@/context';
+import 'style/globals.css';
+
+const INTER = localFont({
+  variable: '--font-inter', src: '../style/fonts/Inter.woff2', weight: '100 900', style: 'normal', preload: true,
+});
+const FIRA_CODE = localFont({
+  variable: '--font-fira-code', src: '../style/fonts/FiraCode.woff2', weight: '300 700', style: 'normal', preload: true,
+});
 
 export default function RootLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
-    <html lang="ru">
+    <html lang='ru' className={`${INTER.variable} ${FIRA_CODE.variable}`}>
       <head />
-      <body>
+      <body className='bg-light-background transition duration-100 dark:bg-dark-background'>
         <Providers>
-          <Container
-            disableGutters
-            maxWidth={false}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              minHeight: '100vh',
-              width: '100%',
-            }}
-          >
-            <AppMetaContext.Consumer>
-              {({ isLoading }) => (
-                isLoading
-                  ? (
-                    <Container
-                      component='main'
-                      disableGutters
-                      maxWidth={false}
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        height: '100vh',
-                        width: '100%',
-                      }}
-                    >
-                      <CircularProgress />
-                    </Container>
-                  )
-                  : (
-                    <> {/** Root content */}
-                      <Header />
-                      <Container
-                        component='main'
-                        disableGutters
-                        maxWidth={false}
-                        sx={{
-                          display: 'block',
-                          maxWidth: 'lg',
-                          paddingX: '32px',
-                        }}
-                      >
-                        {children}
-                      </Container>
-                      <Footer />
-                    </>
-                  )
-              )}
-            </AppMetaContext.Consumer>
-          </Container>
+          {children}
         </Providers>
-      </body >
-    </html >
+      </body>
+    </html>
   );
 }

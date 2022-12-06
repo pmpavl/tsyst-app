@@ -1,4 +1,4 @@
-# School Testing System
+# School Testing System Application
 ```
 TODO
 ```
