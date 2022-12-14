@@ -54,16 +54,6 @@ export default class MetaProvider extends React.Component<React.PropsWithChildre
     this.setMode(lsMode === null ? 'light' : lsMode as PaletteMode);
   }
 
-  shouldComponentUpdate(_: never, nextState: MetaState): boolean {
-    if (
-      this.state.isLoading === nextState.isLoading &&
-      this.state.isAuth === nextState.isAuth &&
-      this.state.mode === nextState.mode
-    ) { return false; }
-
-    return true;
-  }
-
   createMuiTheme = (): Theme => {
     const theme = createTheme({
       palette: palette(this.state.mode),

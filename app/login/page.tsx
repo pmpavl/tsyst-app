@@ -12,7 +12,7 @@ export default function Page(): JSX.Element {
         fontWeight='600'
         marginTop='24vh'
       >
-        Вход
+        TODO
       </Typography>
     </>
   );
