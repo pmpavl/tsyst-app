@@ -28,6 +28,10 @@
     }
   },
   "rules": {
+    "@next/next/no-html-link-for-pages": [
+      "error",
+      "app/"
+    ],
     "react/jsx-filename-extension": [
       "error",
       {

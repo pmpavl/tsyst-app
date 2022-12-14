@@ -1,5 +1,5 @@
 import { Theme } from '@mui/material';
-import { blend, blendBackground } from '@/utils';
+import { blend, blendBackground } from '@/util';
 
 export type ButtonStyleSX = {
   color: string;

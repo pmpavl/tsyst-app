@@ -3,8 +3,7 @@ import { Button as MuiButton, Theme, useTheme } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition, faSun, faMoon, faBars, faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { Link } from '@/customs';
-import { getButtonStyleSX } from '@/styles';
+import { Link, getButtonStyleSX } from '@/components';
 
 function getFontAwesomeIconDefinition(icon: Icons): IconDefinition {
   switch (icon) {
@@ -17,48 +16,18 @@ function getFontAwesomeIconDefinition(icon: Icons): IconDefinition {
   }
 }
 
-function getFontSize(size: ButtonSizes): string {
-  switch (size) {
-    case 'extra large': return '28px';
-    case 'large': return '24px';
-    case 'medium': return '20px';
-  }
-}
-
-function getSizes(size: ButtonSizes): {
-  height: string;
-  minWidth: string;
-} {
-  switch (size) {
-    case 'extra large': return {
-      height: '48px',
-      minWidth: '48px',
-    };
-    case 'large': return {
-      height: '40px',
-      minWidth: '40px',
-    };
-    case 'medium': return {
-      height: '32px',
-      minWidth: '32px',
-    };
-  }
-}
-
 export type ButtonIconProps = {
   icon: Icons
   style: ButtonStyles
-  size: ButtonSizes
   href?: string
   disabled?: boolean
   onClick?: () => void
+  visibility?: boolean
 };
 
-export default function ButtonIcon({ icon, style, size, href, disabled, onClick }: ButtonIconProps): JSX.Element {
+export default function ButtonIcon({ icon, style, href, disabled, onClick, visibility }: ButtonIconProps): JSX.Element {
   const theme: Theme = useTheme();
-
-  const iconProp = getFontAwesomeIconDefinition(icon);
-  const fontSize = getFontSize(size);
+  const iconProp: IconDefinition = getFontAwesomeIconDefinition(icon);
 
   return (
     <MuiButton
@@ -69,14 +38,16 @@ export default function ButtonIcon({ icon, style, size, href, disabled, onClick 
       disableFocusRipple
       onClick={onClick}
       sx={{
-        ...getSizes(size),
         ...getButtonStyleSX(theme, style),
         padding: '0px',
-        fontSize: fontSize,
+        height: '40px',
+        minWidth: '40px',
+        fontSize: '24px',
+        display: visibility === false ? 'none' : 'flex',
       }}
     >
       <Link href={href}>
-        <FontAwesomeIcon width={fontSize} height={fontSize} icon={iconProp} />
+        <FontAwesomeIcon width={'24px'} height={'24px'} icon={iconProp} />
       </Link>
     </MuiButton>
   );

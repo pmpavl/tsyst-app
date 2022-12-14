@@ -8,16 +8,15 @@
 
 import React from 'react';
 import { Container } from '@mui/material';
-import { AppMetaContext, Providers } from '@/context';
-import { Header, Footer } from '@/components';
-import { CircularProgress } from '@/customs';
+import { MetaProvider, MetaContext } from '@/context';
+import { CircularProgress, Header } from '@/components';
 
 export default function RootLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
     <html lang="ru">
       <head />
       <body>
-        <Providers>
+        <MetaProvider>
           <Container
             disableGutters
             maxWidth={false}
@@ -30,7 +29,7 @@ export default function RootLayout({ children }: React.PropsWithChildren): JSX.E
               width: '100%',
             }}
           >
-            <AppMetaContext.Consumer>
+            <MetaContext.Consumer>
               {({ isLoading }) => (
                 isLoading
                   ? (
@@ -59,18 +58,17 @@ export default function RootLayout({ children }: React.PropsWithChildren): JSX.E
                         sx={{
                           display: 'block',
                           maxWidth: 'lg',
-                          paddingX: '32px',
+                          paddingX: { zero: '16px', mobile: '32px' },
                         }}
                       >
                         {children}
                       </Container>
-                      <Footer />
                     </>
                   )
               )}
-            </AppMetaContext.Consumer>
+            </MetaContext.Consumer>
           </Container>
-        </Providers>
+        </MetaProvider>
       </body >
     </html >
   );

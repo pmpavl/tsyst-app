@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Typography, useTheme } from '@mui/material';
+import Link from 'next/link';
 
 export default function Page(): JSX.Element {
   const theme = useTheme();
@@ -32,6 +33,7 @@ export default function Page(): JSX.Element {
       >
         {' В разработке'}
       </Typography>
+      <Link href='/login'>Login</Link>
     </>
   );
 }

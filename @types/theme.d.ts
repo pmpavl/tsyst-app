@@ -62,16 +62,6 @@ declare module '@mui/material/styles' {
     elevation5: string
   }
 
-  interface Theme {
-    elevation: Elevation
-  }
-
-  interface ThemeOptions {
-    elevation: Elevation
-  }
-}
-
-declare module '@mui/material/styles' {
   interface Opacities {
     opacity8: number
     opacity12: number
@@ -80,10 +70,27 @@ declare module '@mui/material/styles' {
   }
 
   interface Theme {
+    elevation: Elevation
     opacities: Opacities
   }
 
   interface ThemeOptions {
+    elevation: Elevation
     opacities: Opacities
+  }
+}
+
+declare module '@mui/material/styles' {
+  interface BreakpointOverrides {
+    xs: false;
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+    zero: true;
+    mobile: true;
+    tablet: true;
+    laptop: true;
+    desktop: true;
   }
 }

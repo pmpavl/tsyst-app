@@ -1,16 +1,12 @@
 import React from 'react';
-import { AppBar, Toolbar, Container, useTheme } from '@mui/material';
-import { AppMetaContext } from '@/context';
-import { Account, ButtonHeader, ButtonIcon } from '@/customs';
+import { AppBar, Container, Toolbar, useMediaQuery, useTheme } from '@mui/material';
+import { MetaContext } from '@/context';
+import { ButtonHeader, ButtonIcon, ButtonLogoMSU } from '@/components';
 
 export default function Header(): JSX.Element {
   const theme = useTheme();
-
-  const { paletteMode, setPaletteMode } = React.useContext(AppMetaContext);
-
-  const onClickPaletteMode = () => {
-    setPaletteMode(paletteMode === 'light' ? 'dark' : 'light');
-  };
+  const { mode, toggleMode } = React.useContext(MetaContext);
+  const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
 
   return (
     <AppBar
@@ -32,31 +28,26 @@ export default function Header(): JSX.Element {
       <Container
         disableGutters
         maxWidth={false}
-        sx={{ display: 'flex', maxWidth: 'lg', paddingX: '32px' }}
+        sx={{ display: 'flex', maxWidth: 'lg', paddingX: mobile ? '16px' : '32px' }}
       >
         <Toolbar
           disableGutters
           variant='dense'
           sx={{ display: 'flex', justifyContent: 'start', flexGrow: 1, columnGap: 1 }}
         >
-          <ButtonHeader style='standard' size='large' href='/'>
-            Тестирующая система
-          </ButtonHeader>
+          <ButtonLogoMSU style='standard' href='/' />
+          <ButtonHeader style='standard' href='/' size='large' visibility={!mobile}> Тестирующая система </ButtonHeader>
         </Toolbar>
         <Toolbar
           disableGutters
           variant='dense'
           sx={{ display: 'flex', justifyContent: 'end', flexGrow: 1, columnGap: 1 }}
         >
-          <Account />
-          <ButtonIcon
-            icon={theme.palette.mode === 'light' ? 'moon' : 'sun'}
-            style='standard'
-            size='large'
-            onClick={onClickPaletteMode}
-          />
+          <ButtonHeader style='standard' href='/login' size='medium' visibility={!mobile}> Вход </ButtonHeader>
+          <ButtonIcon icon={mode === 'light' ? 'sun' : 'moon'} style='standard' onClick={toggleMode} />
+          <ButtonIcon icon='bars' style='standard' visibility={mobile} />
         </Toolbar>
       </Container>
-    </AppBar >
+    </AppBar>
   );
 }
