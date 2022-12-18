@@ -13,7 +13,7 @@ export default function Linkq({ href, children }: LinkProps): JSX.Element {
       href={href}
       target={href.includes('http') ? '_blank' : '_self'}
       rel='noopener noreferrer'
-      style={{ display: 'contents', color: 'inherit', textDecoration: 'none' }}
+      style={{ display: 'flex', color: 'inherit', textDecoration: 'none' }}
     >
       {children}
     </Link>

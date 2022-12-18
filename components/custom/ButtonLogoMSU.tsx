@@ -27,15 +27,15 @@ export default function ButtonLogoMSU({ style, href, disabled }: ButtonLogoMSUPr
       sx={{
         ...getButtonStyleSX(theme, style),
         padding: '0px',
-        height: '40px',
-        minWidth: '40px',
+        height: '48px',
+        minWidth: '48px',
       }}
     >
       <Link href={href}>
         <Image
           src={mode === 'light' ? MSU_LIGHT : MSU_DARK}
-          width={36}
-          height={36}
+          width={44}
+          height={44}
           quality={100}
           alt='Logo MSU'
           style={{ fontSize: '10px' }}

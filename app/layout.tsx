@@ -9,67 +9,51 @@
 import React from 'react';
 import { Container } from '@mui/material';
 import { MetaProvider, MetaContext } from '@/context';
-import { CircularProgress, Header } from '@/components';
+import { CircularProgress, Footer, Header } from '@/components';
 
 export default function RootLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
     <html lang="ru">
       <head />
       <body>
-        <MetaProvider>
-          <Container
-            disableGutters
-            maxWidth={false}
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              minHeight: '100vh',
-              width: '100%',
-            }}
-          >
-            <MetaContext.Consumer>
-              {({ isLoading }) => (
-                isLoading
-                  ? (
-                    <Container
-                      component='main'
-                      disableGutters
-                      maxWidth={false}
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        height: '100vh',
-                        width: '100%',
-                      }}
-                    >
-                      <CircularProgress />
-                    </Container>
-                  )
-                  : (
-                    <> {/** Root content */}
-                      <Header />
-                      <Container
-                        component='main'
-                        disableGutters
-                        maxWidth={false}
-                        sx={{
-                          display: 'block',
-                          maxWidth: 'lg',
-                          paddingX: { zero: '16px', mobile: '32px' },
-                        }}
-                      >
-                        {children}
-                      </Container>
-                    </>
-                  )
-              )}
-            </MetaContext.Consumer>
-          </Container>
-        </MetaProvider>
-      </body >
-    </html >
+        <Container
+          disableGutters
+          maxWidth={false}
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            minHeight: '100vh',
+            width: '100%',
+          }}
+        >
+          <MetaProvider>
+            <Header />
+            <Container
+              component='main'
+              disableGutters
+              maxWidth={false}
+              sx={{
+                alignItems: 'center',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start',
+                width: '100%',
+                maxWidth: 'lg',
+                marginBlock: 'auto',
+                paddingX: { zero: '16px', mobile: '32px' },
+                paddingY: '16px',
+              }}
+            >
+              <MetaContext.Consumer>
+                {({ isLoading }) => isLoading ? <CircularProgress /> : <>{children}</>}
+              </MetaContext.Consumer>
+            </Container>
+            <Footer />
+          </MetaProvider>
+        </Container>
+      </body>
+    </html>
   );
 }

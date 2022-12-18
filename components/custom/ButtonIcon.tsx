@@ -29,6 +29,8 @@ export default function ButtonIcon({ icon, style, href, disabled, onClick, visib
   const theme: Theme = useTheme();
   const iconProp: IconDefinition = getFontAwesomeIconDefinition(icon);
 
+  if (visibility === false) return <></>;
+
   return (
     <MuiButton
       disabled={disabled}
@@ -43,7 +45,6 @@ export default function ButtonIcon({ icon, style, href, disabled, onClick, visib
         height: '40px',
         minWidth: '40px',
         fontSize: '24px',
-        display: visibility === false ? 'none' : 'flex',
       }}
     >
       <Link href={href}>

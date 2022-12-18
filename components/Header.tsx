@@ -1,12 +1,14 @@
 import React from 'react';
 import { AppBar, Container, Toolbar, useMediaQuery, useTheme } from '@mui/material';
 import { MetaContext } from '@/context';
-import { ButtonHeader, ButtonIcon, ButtonLogoMSU } from '@/components';
+import { ButtonAccount, ButtonHeader, ButtonLogoMSU } from '@/components';
 
 export default function Header(): JSX.Element {
   const theme = useTheme();
-  const { mode, toggleMode } = React.useContext(MetaContext);
+  const { isLoading, isAuth } = React.useContext(MetaContext);
   const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
+
+  if (isLoading) { return <></>; }
 
   return (
     <AppBar
@@ -43,9 +45,9 @@ export default function Header(): JSX.Element {
           variant='dense'
           sx={{ display: 'flex', justifyContent: 'end', flexGrow: 1, columnGap: 1 }}
         >
-          <ButtonHeader style='standard' href='/login' size='medium' visibility={!mobile}> Вход </ButtonHeader>
-          <ButtonIcon icon={mode === 'light' ? 'sun' : 'moon'} style='standard' onClick={toggleMode} />
-          <ButtonIcon icon='bars' style='standard' visibility={mobile} />
+          <ButtonHeader style='standard' href='/tests' size='medium' visibility={isAuth}> Тесты </ButtonHeader>
+          <ButtonAccount style='monogram' href='/profile' visibility={isAuth} />
+          <ButtonHeader style='standard' href='/login' size='medium' visibility={!isAuth}> Вход </ButtonHeader>
         </Toolbar>
       </Container>
     </AppBar>

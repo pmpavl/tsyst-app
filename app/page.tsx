@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { Typography, useTheme } from '@mui/material';
+import { Theme, Typography, useTheme } from '@mui/material';
 
 export default function Page(): JSX.Element {
-  const theme = useTheme();
+  const theme: Theme = useTheme();
 
   return (
     <>
@@ -12,7 +12,6 @@ export default function Page(): JSX.Element {
         textAlign='center'
         variant='h2'
         fontWeight='600'
-        marginTop='24vh'
       >
         Тестирующая система
       </Typography>
@@ -30,7 +29,7 @@ export default function Page(): JSX.Element {
         fontWeight='600'
         color={theme.palette.sys.error}
       >
-        {' В разработке'}
+        {'В разработке'}
       </Typography>
     </>
   );
