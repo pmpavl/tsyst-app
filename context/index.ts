@@ -1,2 +1,2 @@
-export { default as MetaProvider } from './MetaProvider';
-export * from './MetaProvider';
+export { default as ThemeProvider } from './Theme';
+export * from './Theme';

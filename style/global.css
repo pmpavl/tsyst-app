@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary color palette */
+    --color-primary-0: 0 0 0;
+    --color-primary-5: 0 21 0;
+    --color-primary-10: 0 34 0;
+    --color-primary-15: 0 45 0;
+    --color-primary-20: 0 58 0;
+    --color-primary-25: 4 70 3;
+    --color-primary-30: 21 82 15;
+    --color-primary-35: 34 94 27;
+    --color-primary-40: 47 107 38;
+    --color-primary-50: 72 133 60;
+    --color-primary-60: 97 159 83;
+    --color-primary-70: 123 187 107;
+    --color-primary-80: 149 215 132;
+    --color-primary-90: 176 244 158;
+    --color-primary-95: 202 255 185;
+    --color-primary-98: 237 255 226;
+    --color-primary-99: 247 255 238;
+    --color-primary-100: 255 255 255;
+
+    /* Secondary color palette */
+    --color-secondary-0: 0 0 0;
+    --color-secondary-5: 7 20 5;
+    --color-secondary-10: 18 31 14;
+    --color-secondary-15: 28 41 24;
+    --color-secondary-20: 38 52 34;
+    --color-secondary-25: 49 63 44;
+    --color-secondary-30: 60 75 55;
+    --color-secondary-35: 72 86 66;
+    --color-secondary-40: 84 99 77;
+    --color-secondary-50: 108 123 101;
+    --color-secondary-60: 133 149 126;
+    --color-secondary-70: 160 176 151;
+    --color-secondary-80: 187 203 178;
+    --color-secondary-90: 215 232 205;
+    --color-secondary-95: 229 246 219;
+    --color-secondary-98: 238 255 227;
+    --color-secondary-99: 247 255 238;
+    --color-secondary-100: 255 255 255;
+
+    /* Tertiary color palette */
+    --color-tertiary-0: 0 0 0;
+    --color-tertiary-5: 0 20 21;
+    --color-tertiary-10: 0 32 34;
+    --color-tertiary-15: 0 43 45;
+    --color-tertiary-20: 0 55 58;
+    --color-tertiary-25: 16 66 69;
+    --color-tertiary-30: 30 77 80;
+    --color-tertiary-35: 43 89 92;
+    --color-tertiary-40: 56 101 105;
+    --color-tertiary-50: 81 127 130;
+    --color-tertiary-60: 107 152 156;
+    --color-tertiary-70: 133 179 182;
+    --color-tertiary-80: 160 207 210;
+    --color-tertiary-90: 188 235 238;
+    --color-tertiary-95: 202 249 253;
+    --color-tertiary-98: 231 254 255;
+    --color-tertiary-99: 243 255 255;
+    --color-tertiary-100: 255 255 255;
+
+    /* Error color palette */
+    --color-error-0: 0 0 0;
+    --color-error-5: 45 0 1;
+    --color-error-10: 65 0 2;
+    --color-error-15: 84 0 3;
+    --color-error-20: 105 0 5;
+    --color-error-25: 126 0 7;
+    --color-error-30: 147 0 10;
+    --color-error-35: 168 7 16;
+    --color-error-40: 186 26 26;
+    --color-error-50: 222 55 48;
+    --color-error-60: 255 84 73;
+    --color-error-70: 255 137 125;
+    --color-error-80: 255 180 171;
+    --color-error-90: 255 218 214;
+    --color-error-95: 255 237 234;
+    --color-error-98: 255 248 247;
+    --color-error-99: 255 251 255;
+    --color-error-100: 255 255 255;
+
+    /* Neutral color palette */
+    --color-neutral-0: 0 0 0;
+    --color-neutral-5: 15 18 14;
+    --color-neutral-10: 26 28 24;
+    --color-neutral-15: 36 38 34;
+    --color-neutral-20: 47 49 45;
+    --color-neutral-25: 58 60 56;
+    --color-neutral-30: 69 71 67;
+    --color-neutral-35: 81 83 78;
+    --color-neutral-40: 93 95 90;
+    --color-neutral-50: 118 120 114;
+    --color-neutral-60: 144 145 140;
+    --color-neutral-70: 171 172 166;
+    --color-neutral-80: 198 199 193;
+    --color-neutral-90: 226 227 220;
+    --color-neutral-95: 241 241 235;
+    --color-neutral-98: 249 250 243;
+    --color-neutral-99: 252 253 246;
+    --color-neutral-100: 255 255 255;
+
+    /* Neutral Variant color palette */
+    --color-neutral-variant-0: 0 0 0;
+    --color-neutral-variant-5: 13 18 11;
+    --color-neutral-variant-10: 24 29 21;
+    --color-neutral-variant-15: 34 39 31;
+    --color-neutral-variant-20: 44 50 41;
+    --color-neutral-variant-25: 55 61 52;
+    --color-neutral-variant-30: 67 72 63;
+    --color-neutral-variant-35: 78 84 74;
+    --color-neutral-variant-40: 90 96 86;
+    --color-neutral-variant-50: 115 121 110;
+    --color-neutral-variant-60: 141 147 135;
+    --color-neutral-variant-70: 167 173 161;
+    --color-neutral-variant-80: 195 200 188;
+    --color-neutral-variant-90: 223 228 215;
+    --color-neutral-variant-95: 237 243 229;
+    --color-neutral-variant-98: 246 251 238;
+    --color-neutral-variant-99: 249 254 241;
+    --color-neutral-variant-100: 255 255 255;
+
+    /* System color palette */
+    --color-light-primary: var(--color-secondary-40);
+    --color-light-primary-container: var(--color-secondary-90);
+    --color-light-secondary: 93 95 89;
+    --color-light-secondary-container: 225 227 219;
+    --color-light-tertiary: 86 96 97;
+    --color-light-tertiary-container: 218 228 229;
+    --color-light-error: var(--color-error-40);
+    --color-light-error-container: var(--color-error-90);
+    --color-light-background: 255 252 249;
+    --color-light-surface: var(--color-light-background);
+    --color-light-surface-variant: 227 226 222;
+    --color-light-surface-1: 246 244 240;
+    --color-light-surface-2: 241 240 235;
+    --color-light-surface-3: 236 235 230;
+    --color-light-surface-4: 234 234 228;
+    --color-light-surface-5: 231 231 225;
+    --color-light-outline: 119 119 116;
+    --color-light-outline-variant: var(--color-neutral-variant-80);
+    --color-light-on-primary: var(--color-primary-100);
+    --color-light-on-primary-container: var(--color-secondary-10);
+    --color-light-on-secondary: var(--color-secondary-100);
+    --color-light-on-secondary-container: 25 29 23;
+    --color-light-on-tertiary: var(--color-tertiary-100);
+    --color-light-on-tertiary-container: 20 29 30;
+    --color-light-on-error: var(--color-error-100);
+    --color-light-on-error-container: var(--color-error-10);
+    --color-light-on-background: 27 28 26;
+    --color-light-on-surface: var(--color-light-on-background);
+    --color-light-on-surface-variant: 70 71 68;
+
+    --color-dark-primary: 187 204 178;
+    --color-dark-primary-container: var(--color-secondary-30);
+    --color-dark-secondary: 197 199 191;
+    --color-dark-secondary-container: 68 72 66;
+    --color-dark-tertiary: 190 200 201;
+    --color-dark-tertiary-container: 63 73 73;
+    --color-dark-error: var(--color-error-80);
+    --color-dark-error-container: var(--color-error-30);
+    --color-dark-background: 27 28 26;
+    --color-dark-surface: var(--color-dark-background);
+    --color-dark-surface-variant: 70 71 68;
+    --color-dark-surface-1: 35 37 34;
+    --color-dark-surface-2: 40 42 38;
+    --color-dark-surface-3: 45 47 43;
+    --color-dark-surface-4: 46 49 44;
+    --color-dark-surface-5: 49 53 47;
+    --color-dark-outline: 145 145 141;
+    --color-dark-outline-variant: var(--color-neutral-variant-30);
+    --color-dark-on-primary: var(--color-secondary-20);
+    --color-dark-on-primary-container: var(--color-secondary-90);
+    --color-dark-on-secondary: 46 49 44;
+    --color-dark-on-secondary-container: 225 227 219;
+    --color-dark-on-tertiary: 41 50 51;
+    --color-dark-on-tertiary-container: 218 228 229;
+    --color-dark-on-error: var(--color-error-20);
+    --color-dark-on-error-container: var(--color-error-80);
+    --color-dark-on-background: 229 226 224;
+    --color-dark-on-surface: var(--color-dark-on-background);
+    --color-dark-on-surface-variant: 199 198 194;
+  }
+}
+
+@layer components {
+  html {
+    @apply text-[14px] tablet:text-[16px]
+  }
+
+  button,
+  a {
+    @apply flex items-center justify-center rounded font-medium normal-case transition duration-100 disabled:cursor-not-allowed
+  }
+
+  button.filled,
+  a.filled {
+    @apply bg-light-primary text-light-on-primary hover:bg-light-primary/92 hover:shadow-light1 active:bg-light-primary/84 disabled:bg-light-on-surface/5 disabled:text-light-on-surface/40 disabled:hover:shadow-none dark:bg-dark-primary dark:text-dark-on-primary dark:hover:bg-dark-primary/92 dark:hover:shadow-dark1 dark:active:bg-dark-primary/84 dark:disabled:bg-dark-on-surface/5 dark:disabled:text-dark-on-surface/40
+  }
+
+  button.outlined,
+  a.outlined {
+    @apply border-1 border-light-outline text-light-primary hover:bg-light-primary/8 active:border-light-primary active:bg-light-primary/16 disabled:border-light-outline/40 disabled:text-light-on-surface/40 disabled:hover:bg-transparent dark:border-dark-outline dark:text-dark-primary dark:hover:bg-dark-primary/8 dark:active:border-dark-primary dark:active:bg-dark-primary/16 dark:disabled:border-dark-outline/40 dark:disabled:text-dark-on-surface/40 dark:disabled:hover:bg-transparent
+  }
+
+  button.text,
+  a.text {
+    @apply hover:bg-light-primary/8 active:bg-light-primary/16 disabled:text-light-on-surface/40 disabled:hover:bg-transparent dark:text-dark-on-background dark:hover:bg-dark-primary/8 dark:active:bg-dark-primary/16 dark:disabled:text-dark-on-surface/40 dark:disabled:hover:bg-transparent
+  }
+
+  button.elevated,
+  a.elevated {
+    @apply bg-light-surface-1 text-light-primary shadow-light1 hover:bg-light-primary/8 hover:shadow-light2 active:bg-light-primary/16 active:shadow-light1 disabled:bg-light-on-surface/5 disabled:text-light-on-surface/40 disabled:shadow-none dark:bg-dark-surface-1 dark:text-dark-primary dark:shadow-dark1 dark:hover:bg-dark-primary/8 dark:hover:shadow-dark2 dark:active:bg-dark-primary/16 dark:active:shadow-dark1 dark:disabled:bg-dark-on-surface/5 dark:disabled:text-dark-on-surface/40 dark:disabled:shadow-none
+  }
+
+  button.tonal,
+  a.tonal {
+    @apply bg-light-secondary-container text-light-on-secondary-container hover:bg-light-secondary-container/92 hover:shadow-light2 active:bg-light-secondary-container/84 active:shadow-none disabled:bg-light-on-surface/5 disabled:text-light-on-surface/40 disabled:shadow-none dark:bg-dark-secondary-container dark:text-dark-on-secondary-container dark:hover:bg-dark-secondary-container/92 dark:hover:shadow-dark2 dark:active:bg-dark-secondary-container/84 dark:active:shadow-none dark:disabled:bg-dark-on-surface/5 dark:disabled:text-dark-on-surface/40 dark:disabled:shadow-none
+  }
+
+  svg {
+    @apply m-auto fill-light-on-background transition duration-100 dark:fill-dark-on-background
+  }
+
+  div.card.filled {
+    @apply rounded bg-light-surface-variant dark:bg-dark-surface-variant
+  }
+
+  div.card.outlined {
+    @apply rounded border border-light-outline dark:border-dark-outline
+  }
+
+  div.card.elevated {
+    @apply rounded bg-light-surface-1 shadow-light1 dark:bg-dark-surface-1 dark:shadow-dark1
+  }
+
+  p.badge {
+    @apply rounded bg-light-secondary-container px-4 py-1 text-sm text-light-primary dark:bg-dark-secondary-container dark:text-dark-primary
+  }
+}

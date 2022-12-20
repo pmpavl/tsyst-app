@@ -1,55 +1,35 @@
+'use client';
 import React from 'react';
-import { AppBar, Container, Toolbar, useMediaQuery, useTheme } from '@mui/material';
-import { MetaContext } from '@/context';
-import { ButtonAccount, ButtonHeader, ButtonLogoMSU } from '@/components';
+import Link from 'next/link';
+import { ThemeContext } from '@/context';
+import { MSU, Sun, Moon } from '@/icon';
 
 export default function Header(): JSX.Element {
-  const theme = useTheme();
-  const { isLoading, isAuth } = React.useContext(MetaContext);
-  const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
-
-  if (isLoading) { return <></>; }
+  const { mode, toggleMode } = React.useContext(ThemeContext);
 
   return (
-    <AppBar
-      sx={{
-        backgroundColor: theme.palette.sys.background,
-        backgroundImage: 'none',
-        borderBottomWidth: '1px',
-        borderBottomStyle: 'solid',
-        borderBottomColor: theme.palette.sys.outlineVariant,
-        boxShadow: 'none',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'start',
-        position: 'static',
-        minHeight: '56px',
-        width: '100%',
-      }}
-    >
-      <Container
-        disableGutters
-        maxWidth={false}
-        sx={{ display: 'flex', maxWidth: 'lg', paddingX: mobile ? '16px' : '32px' }}
-      >
-        <Toolbar
-          disableGutters
-          variant='dense'
-          sx={{ display: 'flex', justifyContent: 'start', flexGrow: 1, columnGap: 1 }}
-        >
-          <ButtonLogoMSU style='standard' href='/' />
-          <ButtonHeader style='standard' href='/' size='large' visibility={!mobile}> Тестирующая система </ButtonHeader>
-        </Toolbar>
-        <Toolbar
-          disableGutters
-          variant='dense'
-          sx={{ display: 'flex', justifyContent: 'end', flexGrow: 1, columnGap: 1 }}
-        >
-          <ButtonHeader style='standard' href='/tests' size='medium' visibility={isAuth}> Тесты </ButtonHeader>
-          <ButtonAccount style='monogram' href='/profile' visibility={isAuth} />
-          <ButtonHeader style='standard' href='/login' size='medium' visibility={!isAuth}> Вход </ButtonHeader>
-        </Toolbar>
-      </Container>
-    </AppBar>
+    <header className='static flex h-[56px] w-full flex-row content-center justify-center border-b border-light-outline dark:border-dark-outline'>
+      <div className='flex max-w-screen-laptop flex-1 px-4 mobile:px-8'>
+        <div className='flex grow items-center justify-start gap-x-2 mobile:gap-x-4'>
+          <Link className='text h-12 w-12' href='/' target='_self'>
+            <MSU width='44px' height='44px' />
+          </Link>
+          <Link className='text h-10 px-4 py-3 text-lg max-mobile:hidden mobile:px-6' href='/' target='_self'>
+            Тестирующая система
+          </Link>
+        </div>
+        <div className='flex grow items-center justify-end gap-x-2 mobile:gap-x-4'>
+          <Link className='text h-10 px-4 py-3 text-base mobile:px-6' href='/tests' target='_self'>
+            Тесты
+          </Link>
+          <button disabled className='text h-10 px-4 py-3 text-base mobile:px-6'>
+            Вход
+          </button>
+          <button className='text h-10 w-10' onClick={toggleMode}>
+            {mode === 'light' ? <Sun width='24px' height='24px' /> : <Moon width='24px' height='24px' />}
+          </button>
+        </div>
+      </div>
+    </header>
   );
 }

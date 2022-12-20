@@ -1,49 +1,16 @@
-import React from 'react';
-import { Container, Toolbar, useMediaQuery, useTheme } from '@mui/material';
-import { MetaContext } from '@/context';
-import { ButtonIcon } from '@/components';
+import { GitHub } from '@/icon';
+import Link from 'next/link';
 
 export default function Footer(): JSX.Element {
-  const theme = useTheme();
-  const { isLoading, mode, toggleMode } = React.useContext(MetaContext);
-  const mobile = useMediaQuery(theme.breakpoints.down('mobile'));
-
-  if (isLoading) { return <></>; }
-
   return (
-    <Container
-      component='footer'
-      disableGutters
-      maxWidth={false}
-      sx={{
-        backgroundColor: theme.palette.sys.background,
-        backgroundImage: 'none',
-        borderTopWidth: '1px',
-        borderTopStyle: 'solid',
-        borderTopColor: theme.palette.sys.outlineVariant,
-        boxShadow: 'none',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'start',
-        position: 'static',
-        minHeight: '56px',
-        width: '100%',
-      }}
-    >
-      <Container
-        disableGutters
-        maxWidth={false}
-        sx={{ display: 'flex', maxWidth: 'lg', paddingX: mobile ? '16px' : '32px' }}
-      >
-        <Toolbar
-          disableGutters
-          variant='dense'
-          sx={{ display: 'flex', justifyContent: 'end', flexGrow: 1, columnGap: 1 }}
-        >
-          <ButtonIcon icon='github' style='standard' href='https://github.com/pmpavl/tsyst-app' />
-          <ButtonIcon icon={mode === 'light' ? 'sun' : 'moon'} style='standard' onClick={toggleMode} />
-        </Toolbar>
-      </Container>
-    </Container>
+    <footer className='static flex h-[56px] w-full flex-row content-center justify-center border-t border-light-outline dark:border-dark-outline'>
+      <div className='flex max-w-screen-laptop flex-1 grow px-4 mobile:px-8'>
+        <div className='flex grow items-center justify-end gap-x-2 mobile:gap-x-4'>
+          <Link className='text h-10 w-10 p-0' href='https://github.com/pmpavl/tsyst-app' target='_blank'>
+            <GitHub width='24px' height='24px' />
+          </Link>
+        </div>
+      </div>
+    </footer>
   );
 }

@@ -1,58 +1,27 @@
-/**
- * Пока рендер на клиенте, потому что в Next.js v13 бага связанная с тем,
- * что MUI использует emotion под копотом.
- *
- * Issue: https://github.com/vercel/next.js/issues/41994
- */
-'use client';
+import localFont from '@next/font/local';
+import { ThemeProvider } from '@/context';
+import { Header, Footer } from '@/components';
+import 'style/global.css';
 
-import React from 'react';
-import { Container } from '@mui/material';
-import { MetaProvider, MetaContext } from '@/context';
-import { CircularProgress, Footer, Header } from '@/components';
+const INTER = localFont({
+  variable: '--font-inter', src: '../style/fonts/Inter.woff2', weight: '100 900', style: 'normal', preload: true,
+});
+const FIRA_CODE = localFont({
+  variable: '--font-fira-code', src: '../style/fonts/FiraCode.woff2', weight: '300 700', style: 'normal', preload: true,
+});
 
 export default function RootLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
-    <html lang="ru">
+    <html lang='ru' className={`${INTER.variable} ${FIRA_CODE.variable}`}>
       <head />
-      <body>
-        <Container
-          disableGutters
-          maxWidth={false}
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            minHeight: '100vh',
-            width: '100%',
-          }}
-        >
-          <MetaProvider>
-            <Header />
-            <Container
-              component='main'
-              disableGutters
-              maxWidth={false}
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-start',
-                width: '100%',
-                maxWidth: 'lg',
-                marginBlock: 'auto',
-                paddingX: { zero: '16px', mobile: '32px' },
-                paddingY: '16px',
-              }}
-            >
-              <MetaContext.Consumer>
-                {({ isLoading }) => isLoading ? <CircularProgress /> : <>{children}</>}
-              </MetaContext.Consumer>
-            </Container>
-            <Footer />
-          </MetaProvider>
-        </Container>
+      <body className='flex min-h-screen flex-col items-center justify-start bg-light-background text-light-on-background transition duration-100 dark:bg-dark-background dark:text-dark-on-background'>
+        <ThemeProvider>
+          <Header />
+          <main className='my-auto flex w-screen max-w-screen-laptop flex-col items-center justify-start px-4 mobile:px-8'>
+            {children}
+          </main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

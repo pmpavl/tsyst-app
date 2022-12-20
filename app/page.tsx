@@ -1,36 +1,17 @@
-'use client';
-
-import React from 'react';
-import { Theme, Typography, useTheme } from '@mui/material';
-
 export default function Page(): JSX.Element {
-  const theme: Theme = useTheme();
-
   return (
     <>
-      <Typography
-        textAlign='center'
-        variant='h2'
-        fontWeight='600'
-      >
+      <p className='w-full text-center text-4xl font-bold'>
         Тестирующая система
-      </Typography>
-      <Typography
-        textAlign='center'
-        variant='subtitle1'
-        fontWeight='400'
-        marginTop='1.5rem'
-      >
-        Система для проведения анализа способностей школьников в решении математических задач.
-      </Typography>
-      <Typography
-        textAlign='center'
-        variant='subtitle1'
-        fontWeight='600'
-        color={theme.palette.sys.error}
-      >
-        {'В разработке'}
-      </Typography>
+      </p>
+      <p className='mt-8 inline w-full text-center text-base'>
+        <span>
+          Система для проведения анализа способностей школьников в решении математических задач.
+        </span>
+        <span className='font-bold text-light-error dark:text-dark-error'>
+          {' В разработке'}
+        </span>
+      </p>
     </>
   );
 }

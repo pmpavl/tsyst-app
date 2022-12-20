@@ -27,17 +27,11 @@
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "paths": {
-      "@/api": [
-        "api"
+      "@/icon": [
+        "public/icon"
       ],
       "@/context": [
         "context"
-      ],
-      "@/theme": [
-        "theme"
-      ],
-      "@/util": [
-        "util"
       ],
       "@/components": [
         "components"
@@ -60,6 +54,8 @@
   "include": [
     "next-env.d.ts",
     "next.config.mjs",
+    "postcss.config.js",
+    "tailwind.config.js",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
