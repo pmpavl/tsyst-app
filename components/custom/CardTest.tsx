@@ -1,29 +1,37 @@
-export type CardTestProps = {
-  name: string
-  description: string
-  tags: {
-    minute: string
-    classes: string
-  }
-};
+import { Test } from '@/api';
 
-export default function CardTest({ name, description, tags }: CardTestProps): JSX.Element {
+export function CardTestLoader(): JSX.Element {
   return (
-    <div className='card outlined flex h-[300px] w-full flex-col justify-start p-6'>
-      <div className='flex h-min flex-wrap items-center justify-start gap-x-2 mobile:gap-x-4'>
-        <p className='w-full text-left text-3xl font-bold'> {name} </p>
+    <div className='card-bordered card bg-base-100 shadow-2xl max-mobile:card-compact'>
+      <div className='card-body h-[300px] animate-pulse'>
+        <h2 className='card-title h-7 w-40 flex-wrap rounded-full bg-base-300' />
+        <div className='flex flex-row flex-wrap gap-2'>
+          <span className='h-4 w-16 rounded-full bg-base-300' />
+          <span className='h-4 w-16 rounded-full bg-base-300' />
+        </div>
+        <span className='h-4 w-full rounded-full bg-base-300' />
+        <span className='h-4 w-full rounded-full bg-base-300' />
+        <span className='h-4 w-full rounded-full bg-base-300' />
+        <div className='card-actions mt-auto justify-end'>
+          <button className='h-12 w-32 rounded-full bg-base-300' />
+        </div>
       </div>
-      <div className='mt-2 flex h-min flex-wrap items-center justify-start gap-2 mobile:gap-x-4'>
-        <p className='badge'> {tags.classes} </p>
-        <p className='badge'> {tags.minute} </p>
-      </div>
-      <div className='my-4 flex h-min flex-wrap items-center justify-start gap-2 overflow-y-scroll mobile:gap-x-4'>
-        <p className='text-sm'> {description} </p>
-      </div>
-      <div className='mt-auto flex h-fit flex-wrap items-center justify-start gap-2 mobile:gap-x-4'>
-        <button className='tonal px-4 py-2'> Пройти тест </button>
-        <div className='flex h-full grow flex-wrap items-center justify-end gap-2 mobile:gap-x-4'>
-          <button disabled className='text px-4 py-2 text-sm'> Подробнее </button>
+    </div>
+  );
+}
+
+export default function CardTest({ id, name, description, tags }: Test): JSX.Element {
+  return (
+    <div key={id} className='card-bordered card bg-base-100 shadow-2xl max-mobile:card-compact'>
+      <div className='card-body h-[300px]'>
+        <h2 className='card-title flex-wrap'> {name} </h2>
+        <div className='flex flex-row flex-wrap gap-2'>
+          <span className='badge badge-outline'> {tags.classes} </span>
+          <span className='badge badge-outline'> {tags.minute} </span>
+        </div>
+        <p className='overflow-y-scroll'> {description} </p>
+        <div className='card-actions justify-end'>
+          <button className='btn-outline btn normal-case'> Пройти тест </button>
         </div>
       </div>
     </div>

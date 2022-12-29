@@ -6,7 +6,7 @@ export default function Head(): JSX.Element {
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <link rel="manifest" href="/site.webmanifest"></link>
       <link rel="shortcut icon" href="/favicon.ico" />
-      <title>Тестирующая система</title>
+      <title>Система</title>
     </>
   );
 }

@@ -30,6 +30,12 @@
       "@/icon": [
         "public/icon"
       ],
+      "@/api": [
+        "api"
+      ],
+      "@/utils": [
+        "utils"
+      ],
       "@/context": [
         "context"
       ],
