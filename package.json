@@ -1,0 +1,70 @@
+{
+  "name": "tsyst-app",
+  "version": "1.0.0",
+  "description": "School Testing System Application",
+  "homepage": "https://github.com/pmpavl/tsyst-app",
+  "bugs": {
+    "url": "https://github.com/pmpavl/tsyst-app/issues",
+    "email": "prokashev.m.p@gmail.com"
+  },
+  "license": "MIT",
+  "author": "Maxim Prokashev <prokashev.m.p@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmpavl/tsyst-app.git"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "preview": "next build && next start"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.1.1",
+    "@radix-ui/react-accordion": "^1.1.2",
+    "@radix-ui/react-alert-dialog": "^1.0.4",
+    "@radix-ui/react-aspect-ratio": "^1.0.3",
+    "@radix-ui/react-avatar": "^1.0.3",
+    "@radix-ui/react-dialog": "^1.0.4",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-progress": "^1.0.3",
+    "@radix-ui/react-select": "^1.2.2",
+    "@radix-ui/react-separator": "^1.0.3",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-tabs": "^1.0.4",
+    "class-variance-authority": "^0.6.0",
+    "clsx": "^1.2.1",
+    "lucide-react": "^0.244.0",
+    "next": "^13.4.5",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.44.3",
+    "sharp": "^0.32.1",
+    "tailwind-merge": "^1.13.1",
+    "tailwindcss": "^3.3.2",
+    "tailwindcss-animate": "^1.0.6",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5",
+    "@typescript-eslint/eslint-plugin": "^5.59.11",
+    "@typescript-eslint/parser": "^5.59.11",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-next": "^13.4.5",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-tailwindcss": "^3.12.0",
+    "postcss": "^8.4.24",
+    "typescript": "^5.1.3"
+  }
+}
