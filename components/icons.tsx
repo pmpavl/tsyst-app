@@ -1,4 +1,4 @@
-import { Github, Moon, Sun, Eye, EyeOff, LogIn, LucideProps, type Icon as LucideIcon } from 'lucide-react';
+import { Github, Moon, Sun, Eye, EyeOff, LogIn, LucideProps, type LucideIcon } from 'lucide-react';
 
 export type Icon = LucideIcon;
 
