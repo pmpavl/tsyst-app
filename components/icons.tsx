@@ -1,14 +1,35 @@
-import { Github, Moon, Sun, Eye, EyeOff, LogIn, LucideProps, type LucideIcon } from 'lucide-react';
+import {
+  AlertTriangle, Check,
+  ChevronLeft, ChevronsLeft, ChevronRight, ChevronsRight, ChevronDown, ChevronUp, Dot,
+  Github, Search, Settings, Sun, Moon, User,
+  Mail, Eye, EyeOff, LogIn, LogOut, Loader, LucideProps,
+  type LucideIcon,
+} from 'lucide-react';
 
-export type Icon = LucideIcon;
+type Icon = LucideIcon;
 
-export const Icons = {
+const Icons = {
+  alertTriangle: AlertTriangle,
+  check: Check,
+  chevronLeft: ChevronLeft,
+  chevronsLeft: ChevronsLeft,
+  chevronRight: ChevronRight,
+  chevronsRight: ChevronsRight,
+  chevronDown: ChevronDown,
+  chevronUp: ChevronUp,
+  dot: Dot,
   gitHub: Github,
+  search: Search,
+  settings: Settings,
   sun: Sun,
   moon: Moon,
+  user: User,
+  mail: Mail,
   eye: Eye,
   eyeOff: EyeOff,
   login: LogIn,
+  logOut: LogOut,
+  loader: Loader,
   logo: (props: LucideProps) => ( // MSU Logo
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.000000 1000.000000" fill="currentColor" {...props}>
       <g transform="translate(0.000000,1000.000000) scale(0.100000,-0.100000)">
@@ -477,3 +498,5 @@ l7 45 -91 -2 c-50 0 -106 -3 -124 -5z" />
     </svg>
   ),
 };
+
+export { Icons, type Icon };

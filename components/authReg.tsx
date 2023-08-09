@@ -4,8 +4,14 @@ import * as React from 'react';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import bcrypt from 'bcryptjs';
 
-import { Button } from '@/components/ui/button';
+import {
+  APIauth,
+  ErrorDefault, ErrorDefaultAuthMessage,
+  RegistrationRequest,
+} from '@/api';
+
 import {
   Form,
   FormControl,
@@ -15,7 +21,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
+import { AuthAlert, AuthContentState } from '@/components';
 
 function progressProps(password: string): {
   value: number,
@@ -52,7 +60,8 @@ const regSchema = z.object({
   path: ['passwordRepeat'],
 });
 
-export function AuthReg() {
+function AuthReg({ setState }: { setState: React.Dispatch<React.SetStateAction<AuthContentState>> }): JSX.Element {
+  const [alertShow, setAlertShow] = React.useState<boolean>(false);
   const form = useForm<z.infer<typeof regSchema>>({
     resolver: zodResolver(regSchema),
     defaultValues: {
@@ -62,12 +71,32 @@ export function AuthReg() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof regSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof regSchema>) {
+    /** Registration */
+    const passwordSalt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(values.password, passwordSalt);
+    const response = await APIauth.registration(new RegistrationRequest(
+      values.email,
+      hashPassword,
+      passwordSalt,
+    ));
+    if (response instanceof ErrorDefault) {
+      if (response.message === ErrorDefaultAuthMessage.ErrEmailAlreadyExist) {
+        form.setError('email', { message: 'Этот email уже используеся' }, { shouldFocus: true });
+      } else {
+        setAlertShow(true);
+      }
+
+      return;
+    }
+
+    if (alertShow) { setAlertShow(false); }
+    setState({ open: true, authType: 'logIn', emailSend: true } as AuthContentState);
   }
 
   return (
     <Form {...form}>
+      <AuthAlert show={alertShow} type='ErrorReg' />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
@@ -117,3 +146,5 @@ export function AuthReg() {
     </Form>
   );
 }
+
+export { AuthReg };

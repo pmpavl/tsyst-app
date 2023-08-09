@@ -1,11 +1,10 @@
+import * as React from 'react';
 import Link from 'next/link';
 
 import { buttonVariants } from '@/components/ui/button';
-import { Icons } from '@/components/icons';
-import { Auth } from '@/components/auth';
-import { ThemeToggle } from '@/components/themeToggle';
+import { Icons, HeaderAuth, ThemeToggle } from '@/components';
 
-export function Header() {
+function Header(): JSX.Element {
   return (
     <header className='sticky top-0 z-40 w-full border-b bg-background'>
       <div className='container flex h-16 items-center space-x-4 mobile:justify-between mobile:space-x-0'>
@@ -35,10 +34,12 @@ export function Header() {
               <Icons.gitHub className='h-5 w-5' />
             </Link>
             <ThemeToggle />
-            <Auth />
+            <HeaderAuth />
           </nav>
         </div>
       </div>
     </header>
   );
 }
+
+export { Header };

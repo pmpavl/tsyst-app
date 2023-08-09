@@ -47,7 +47,7 @@ const AlertDialogContent = React.forwardRef<
     <AlertDialogPrimitive.Content
       ref={ref}
       className={cn(
-        'sm:rounded-lg sm:zoom-in-90 sm:slide-in-from-bottom-0 md:w-full fixed z-50 grid w-full max-w-lg scale-100 gap-4 border bg-background p-6 opacity-100 shadow-lg animate-in fade-in-90 slide-in-from-bottom-10',
+        'fixed z-50 grid w-full max-w-lg scale-100 gap-4 border bg-background p-6 opacity-100 shadow-lg animate-in fade-in-90 slide-in-from-bottom-10 mobile:rounded-lg mobile:zoom-in-90 mobile:slide-in-from-bottom-0 tablet:w-full',
         className,
       )}
       {...props}
@@ -62,7 +62,7 @@ const AlertDialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'sm:text-left flex flex-col space-y-2 text-center',
+      'flex flex-col space-y-2 text-center mobile:text-left',
       className,
     )}
     {...props}
@@ -76,7 +76,7 @@ const AlertDialogFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'sm:flex-row sm:justify-end sm:space-x-2 flex flex-col-reverse',
+      'flex flex-col-reverse mobile:flex-row mobile:justify-end mobile:space-x-2',
       className,
     )}
     {...props}
@@ -129,7 +129,7 @@ const AlertDialogCancel = React.forwardRef<
     ref={ref}
     className={cn(
       buttonVariants({ variant: 'outline' }),
-      'sm:mt-0 mt-2',
+      'mt-2 mobile:mt-0',
       className,
     )}
     {...props}

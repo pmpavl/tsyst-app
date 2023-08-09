@@ -3,9 +3,13 @@ import { Metadata } from 'next';
 
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import { Header } from '@/components/header';
-import { TailwindIndicator } from '@/components/tailwindIndicator';
-import { ThemeProvider } from '@/components/themeProvider';
+import {
+  AppProvider,
+  ThemeProvider,
+  Header,
+  TailwindIndicator,
+  LoaderProvider,
+} from '@/components';
 
 export const metadata: Metadata = {
   title: 'Система тестирования',
@@ -30,15 +34,19 @@ export default function RootLayout({ children }: React.PropsWithChildren): JSX.E
           fontSans.variable,
         )}
       >
-        <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
-          <div className='relative flex min-h-screen flex-col'>
-            <Header />
-            <main className='flex-1'>
-              {children}
-            </main>
-          </div>
-          <TailwindIndicator />
-        </ThemeProvider>
+        <AppProvider>
+          <ThemeProvider attribute='class' defaultTheme='system' enableSystem>
+            <LoaderProvider>
+              <div className='relative flex min-h-screen flex-col'>
+                <Header />
+                <main className='flex-1'>
+                  {children}
+                </main>
+              </div>
+            </LoaderProvider>
+            <TailwindIndicator />
+          </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );

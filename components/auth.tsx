@@ -1,8 +1,7 @@
 'use client';
 
-import * as React from 'react';
+import React from 'react';
 
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -11,58 +10,78 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Icons } from '@/components/icons';
-import { AuthLogIn } from '@/components/authLogIn';
-import { AuthReg } from '@/components/authReg';
+import { Button } from '@/components/ui/button';
+import { Icons, AuthLogIn, AuthReg } from '@/components';
 
 type AuthType = 'logIn' | 'reg';
 
-function AuthContent({
-  authType,
-  setAuthType,
-}: {
+type AuthContentState = {
+  open: boolean,
   authType: AuthType,
-  setAuthType: React.Dispatch<React.SetStateAction<AuthType>>,
-}): JSX.Element {
-  switch (authType) {
+  emailSend: boolean,
+};
+
+type AuthContentProps = AuthContentState & {
+  setState: React.Dispatch<React.SetStateAction<AuthContentState>>
+};
+
+function AuthContent({ props }: { props: AuthContentProps }): JSX.Element {
+  function setClose() { props.setState({ ...props, open: false }); }
+  function setReg() { props.setState({ ...props, authType: 'reg' }); }
+  function setLogIn() { props.setState({ ...props, authType: 'logIn' }); }
+
+  switch (props.authType) {
     case 'logIn':
       return (
-        <DialogContent>
+        <DialogContent setClose={setClose}>
           <DialogHeader>
             <DialogTitle className='text-xl'> Вход в систему </DialogTitle>
             <DialogDescription>
-              Если у Вас ещё нет аккаунта, пройдите <span className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' onClick={() => { setAuthType('reg'); }}>регистрацию</span>.
+              Если у Вас ещё нет аккаунта, пройдите <span className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' onClick={setReg}>регистрацию</span>.
             </DialogDescription>
           </DialogHeader>
-          <AuthLogIn />
+          <AuthLogIn emailSend={props.emailSend} setState={props.setState} />
         </DialogContent>
       );
     case 'reg':
       return (
-        <DialogContent>
+        <DialogContent setClose={setClose}>
           <DialogHeader>
             <DialogTitle className='text-xl'> Регистрация </DialogTitle>
             <DialogDescription>
-              Если у Вас уже есть аккаунт, <span className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' onClick={() => { setAuthType('logIn'); }}>войдите</span> в него.
+              Если у Вас уже есть аккаунт, <span className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' onClick={setLogIn}>войдите</span> в него.
             </DialogDescription>
           </DialogHeader>
-          <AuthReg />
+          <AuthReg setState={props.setState} />
         </DialogContent>
       );
   }
 }
 
-export function Auth() {
-  const [authType, setAuthType] = React.useState<AuthType>('logIn');
+function Auth(): JSX.Element {
+  const [state, setState] = React.useState<AuthContentState>({
+    open: false,
+    authType: 'logIn',
+    emailSend: false,
+  } as AuthContentState);
 
   return (
-    <Dialog onOpenChange={() => { setAuthType('logIn'); }}>
+    <Dialog open={state.open} onOpenChange={() => { setState({ ...state, open: true, authType: 'logIn' }); }}>
       <DialogTrigger asChild>
         <Button variant='ghost' size='sm'>
           <Icons.login className='h-5 w-5' />
         </Button>
       </DialogTrigger>
-      <AuthContent authType={authType} setAuthType={setAuthType} />
+      <AuthContent
+        props={{
+          open: state.open,
+          authType: state.authType,
+          emailSend: state.emailSend,
+          setState: setState,
+        } as AuthContentProps}
+      />
     </Dialog>
   );
 }
+
+export { Auth, type AuthType, type AuthContentState };
