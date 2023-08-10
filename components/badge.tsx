@@ -23,14 +23,20 @@ function BadgeClassesRender({ classes }: { classes: string }): JSX.Element {
   return <Badge variant='outline' className='w-fit'> {classes} </Badge>;
 }
 
+function BadgePointsRender({ points }: { points: string }): JSX.Element {
+  return <Badge variant='outline' className='w-fit'> {points} </Badge>;
+}
+
 function BadgeRepeatRender({ type }: { type: string }): JSX.Element {
   return <Badge variant='outline' className='w-fit'> {type} </Badge>;
 }
 
 function BadgeThemesRender({ themes }: { themes: Array<string> }): JSX.Element {
   return (
-    <div className='hide-scroll-bar flex max-w-full gap-2 overflow-x-scroll rounded-lg'>
-      {themes.map((theme, key) => <Badge key={key} variant='outline' className='w-fit flex-none'> {theme} </Badge>)}
+    <div className='hide-scroll-bar flex max-w-full gap-2 overflow-x-scroll rounded-lg border bg-foreground/5 py-1 shadow-sm'>
+      {themes.map((theme, key) =>
+        <Badge key={key} variant='outline' className='w-fit flex-none bg-background first:ml-1 last:mr-1'> {theme} </Badge>)
+      }
     </div>
   );
 }
@@ -39,6 +45,7 @@ export {
   BadgeSkeleton,
   BadgeComplexityRender,
   BadgeClassesRender,
+  BadgePointsRender,
   BadgeRepeatRender,
   BadgeThemesRender,
 };
