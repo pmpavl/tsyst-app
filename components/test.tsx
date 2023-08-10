@@ -4,6 +4,7 @@ import {
   BadgeSkeleton,
   BadgeComplexityRender,
   BadgeClassesRender,
+  BadgeRepeatRender,
   TestTaskRender, TestTaskSkeleton,
 } from '@/components';
 import { Test } from '@/models';
@@ -14,6 +15,7 @@ function TestSkeleton(): JSX.Element {
       <div className='flex max-w-[980px] flex-col items-start gap-2'>
         <Skeleton className='h-[36px] w-48 mobile:h-[40px]' />
         <div className='flex flex-row flex-wrap gap-2'>
+          <BadgeSkeleton />
           <BadgeSkeleton />
           <BadgeSkeleton />
         </div>
@@ -40,6 +42,7 @@ function TestRender({ test }: { test: Test }): JSX.Element {
         </h1>
         <div className='flex flex-row flex-wrap gap-2'>
           <BadgeClassesRender classes={test.tags.classes} />
+          <BadgeRepeatRender type={test.repeat.type} />
           <BadgeComplexityRender complexity={test.tags.complexity} />
         </div>
         <p className='max-w-[700px] text-lg text-muted-foreground'>

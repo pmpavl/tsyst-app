@@ -23,6 +23,10 @@ function BadgeClassesRender({ classes }: { classes: string }): JSX.Element {
   return <Badge variant='outline' className='w-fit'> {classes} </Badge>;
 }
 
+function BadgeRepeatRender({ type }: { type: string }): JSX.Element {
+  return <Badge variant='outline' className='w-fit'> {type} </Badge>;
+}
+
 function BadgeThemesRender({ themes }: { themes: Array<string> }): JSX.Element {
   return (
     <div className='hide-scroll-bar flex max-w-full gap-2 overflow-x-scroll rounded-lg'>
@@ -35,5 +39,6 @@ export {
   BadgeSkeleton,
   BadgeComplexityRender,
   BadgeClassesRender,
+  BadgeRepeatRender,
   BadgeThemesRender,
 };
