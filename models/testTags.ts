@@ -1,21 +1,25 @@
-export default class TestTags {
+interface ITestTags {
   complexity: string;
-
   classes: string;
-
   points: string;
+  timePassing: string;
+}
 
-  constructor(_complexity = '', _classes = '', _points = '') {
-    this.complexity = _complexity;
-    this.classes = _classes;
-    this.points = _points;
-  }
+class TestTags {
+  public complexity: string;
 
-  toJSON() {
-    return {
-      complexity: this.complexity,
-      classes: this.classes,
-      points: this.points,
-    };
+  public classes: string;
+
+  public points: string;
+
+  public timePassing: string;
+
+  constructor(obj: ITestTags) {
+    this.complexity = obj.complexity;
+    this.classes = obj.classes;
+    this.points = obj.points;
+    this.timePassing = obj.timePassing;
   }
 }
+
+export { TestTags, type ITestTags };

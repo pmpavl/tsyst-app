@@ -11,14 +11,14 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Icons, AuthLogIn, AuthReg } from '@/components';
+import { Icons, AuthLogIn, AuthReg, AuthAlertProps } from '@/components';
 
 type AuthType = 'logIn' | 'reg';
 
 type AuthContentState = {
   open: boolean,
   authType: AuthType,
-  emailSend: boolean,
+  authAlert: AuthAlertProps,
 };
 
 type AuthContentProps = AuthContentState & {
@@ -40,7 +40,7 @@ function AuthContent({ props }: { props: AuthContentProps }): JSX.Element {
               Если у Вас ещё нет аккаунта, пройдите <span className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' onClick={setReg}>регистрацию</span>.
             </DialogDescription>
           </DialogHeader>
-          <AuthLogIn emailSend={props.emailSend} setState={props.setState} />
+          <AuthLogIn authAlert={props.authAlert} setState={props.setState} />
         </DialogContent>
       );
     case 'reg':
@@ -62,7 +62,7 @@ function Auth(): JSX.Element {
   const [state, setState] = React.useState<AuthContentState>({
     open: false,
     authType: 'logIn',
-    emailSend: false,
+    authAlert: { show: false },
   } as AuthContentState);
 
   return (
@@ -72,16 +72,12 @@ function Auth(): JSX.Element {
           <Icons.login className='h-5 w-5' />
         </Button>
       </DialogTrigger>
-      <AuthContent
-        props={{
-          open: state.open,
-          authType: state.authType,
-          emailSend: state.emailSend,
-          setState: setState,
-        } as AuthContentProps}
-      />
+      <AuthContent props={{ ...state, setState: setState } as AuthContentProps} />
     </Dialog>
   );
 }
 
-export { Auth, type AuthType, type AuthContentState };
+export {
+  Auth, AuthContent,
+  type AuthContentProps, type AuthContentState, type AuthType,
+};

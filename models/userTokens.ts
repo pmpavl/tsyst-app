@@ -1,14 +1,17 @@
-export default class UserTokens {
+interface IUserTokens {
   accessToken: string;
-
   refreshToken: string;
+}
 
-  constructor(_accessToken = '', _refreshToken = '') {
-    this.accessToken = _accessToken;
-    this.refreshToken = _refreshToken;
-  }
+class UserTokens {
+  public accessToken: string;
 
-  toJSON() {
-    return {};
+  public refreshToken: string;
+
+  constructor(obj: IUserTokens) {
+    this.accessToken = obj.accessToken;
+    this.refreshToken = obj.refreshToken;
   }
 }
+
+export { UserTokens, type IUserTokens };

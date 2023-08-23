@@ -2,12 +2,11 @@ import * as React from 'react';
 import { cookies } from 'next/headers';
 
 import {
-  APItests,
-  LandingRequest,
-  ErrorDefault, ErrorDefaultTestsMessage,
+  APITests, ErrorDefault, ErrorDefaultTestsMessage,
+  TestsLandingRequest,
 } from '@/api';
 
-import { TestAlert, TestRender } from '@/components';
+import { TestView, TestsLandingAlert } from '@/components';
 
 type PageProps = { params: { path: string } };
 
@@ -16,14 +15,15 @@ export default async function Page({ params }: PageProps): Promise<JSX.Element> 
   const cookieStore = cookies();
   const accessToken = cookieStore.get('ACCESS_TOKEN')?.value;
 
-  const response = await APItests.landing(new LandingRequest(params.path, accessToken));
+  const testsLandingRequest = new TestsLandingRequest({ accessToken: accessToken, path: params.path });
+  const response = await APITests.landing(testsLandingRequest);
   if (response instanceof ErrorDefault) {
     if (response.message === ErrorDefaultTestsMessage.ErrNothingFound) {
-      return <TestAlert type='NothingFound' />;
+      return <TestsLandingAlert type='ErrNothingFound' />;
     }
 
-    return <TestAlert type='ErrorTest' />;
+    return <TestsLandingAlert type='Error' />;
   }
 
-  return <TestRender test={response} />;
+  return <TestView itest={response} />;
 }

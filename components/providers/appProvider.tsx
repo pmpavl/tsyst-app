@@ -3,10 +3,9 @@
 import React from 'react';
 
 import {
-  APIauth,
-  ErrorDefault,
-  IdentificationRequest,
+  APIAuth, ErrorDefault,
   RefreshRequest,
+  IdentificationRequest,
 } from '@/api';
 import {
   setCookie, getCookie, deleteCookie,
@@ -30,7 +29,7 @@ type App = AppState & {
 const AppContext = React.createContext<App>({} as App);
 
 class AppProvider extends React.Component<React.PropsWithChildren, AppState> {
-  state: AppState = { loading: true, auth: false };
+  public state: AppState = { loading: true, auth: false };
 
   async componentDidMount(): Promise<void> {
     const accessToken = getCookie(ACCESS_TOKEN);
@@ -41,21 +40,25 @@ class AppProvider extends React.Component<React.PropsWithChildren, AppState> {
     }
 
     if (accessToken === '' && refreshToken !== '') { // Only refresh token
-      const response = await APIauth.refresh(new RefreshRequest(refreshToken));
+      const response = await APIAuth.refresh(new RefreshRequest({ refreshToken }));
       if (response instanceof ErrorDefault) return this.refreshProcessError(response);
 
       setCookie(ACCESS_TOKEN, response.accessToken, ACCESS_TOKEN_MAX_AGE);
-      return this.setState({ loading: false, auth: true, tokens: new UserTokens(response.accessToken, refreshToken) });
+      return this.setTokens(response.accessToken, refreshToken);
     }
 
     // Have access token
-    const response = await APIauth.identification(new IdentificationRequest(accessToken));
+    const response = await APIAuth.identification(new IdentificationRequest({ accessToken }));
     if (response instanceof ErrorDefault) return this.identificationProcessError(response);
 
-    return this.setState({ loading: false, auth: true, tokens: new UserTokens(accessToken, refreshToken) });
+    return this.setTokens(accessToken, refreshToken);
   }
 
-  refreshProcessError = (response: ErrorDefault): void => {
+  private setTokens = (accessToken: string, refreshToken: string): void => {
+    this.setState({ loading: false, auth: true, tokens: new UserTokens({ accessToken, refreshToken }) });
+  };
+
+  private refreshProcessError = (response: ErrorDefault): void => {
     // 400 || 403 || 404
     if (response.isBadRequest() || response.isForbidden() || response.isNotFound()) {
       deleteCookie(REFRESH_TOKEN);
@@ -66,7 +69,7 @@ class AppProvider extends React.Component<React.PropsWithChildren, AppState> {
     return this.setState({ loading: false, auth: false });
   };
 
-  identificationProcessError = (response: ErrorDefault): void => {
+  private identificationProcessError = (response: ErrorDefault): void => {
     // 400 || 403 || 404
     if (response.isBadRequest() || response.isForbidden() || response.isNotFound()) {
       deleteCookie(ACCESS_TOKEN);
@@ -78,21 +81,21 @@ class AppProvider extends React.Component<React.PropsWithChildren, AppState> {
     return this.setState({ loading: false, auth: false });
   };
 
-  login = (accessToken: string, refreshToken: string): void => {
+  public login = (accessToken: string, refreshToken: string): void => {
     setCookie(ACCESS_TOKEN, accessToken, ACCESS_TOKEN_MAX_AGE);
     setCookie(REFRESH_TOKEN, refreshToken, REFRESH_TOKEN_MAX_AGE);
 
-    this.setState({ auth: true, tokens: new UserTokens(accessToken, refreshToken) });
+    this.setState({ auth: true, tokens: new UserTokens({ accessToken, refreshToken }) });
   };
 
-  logout = (): void => {
+  public logout = (): void => {
     deleteCookie(ACCESS_TOKEN);
     deleteCookie(REFRESH_TOKEN);
 
     this.setState({ auth: false, tokens: undefined });
   };
 
-  render() {
+  public render() {
     return (
       <AppContext.Provider value={{ ...this.state, ...this }}>
         {this.props.children}
@@ -101,4 +104,7 @@ class AppProvider extends React.Component<React.PropsWithChildren, AppState> {
   }
 }
 
-export { AppProvider, AppContext, type App, type AppState };
+export {
+  type App, type AppState,
+  AppContext, AppProvider,
+};

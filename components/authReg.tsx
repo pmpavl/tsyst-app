@@ -7,8 +7,7 @@ import { useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
 
 import {
-  APIauth,
-  ErrorDefault, ErrorDefaultAuthMessage,
+  APIAuth, ErrorDefault, ErrorDefaultAuthMessage,
   RegistrationRequest,
 } from '@/api';
 
@@ -64,22 +63,19 @@ function AuthReg({ setState }: { setState: React.Dispatch<React.SetStateAction<A
   const [alertShow, setAlertShow] = React.useState<boolean>(false);
   const form = useForm<z.infer<typeof regSchema>>({
     resolver: zodResolver(regSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-      passwordRepeat: '',
-    },
+    defaultValues: { email: '', password: '', passwordRepeat: '' },
   });
 
   async function onSubmit(values: z.infer<typeof regSchema>) {
     /** Registration */
     const passwordSalt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(values.password, passwordSalt);
-    const response = await APIauth.registration(new RegistrationRequest(
-      values.email,
-      hashPassword,
-      passwordSalt,
-    ));
+    const registrationRequest = new RegistrationRequest({
+      email: values.email,
+      password: hashPassword,
+      passwordSalt: passwordSalt,
+    });
+    const response = await APIAuth.registration(registrationRequest);
     if (response instanceof ErrorDefault) {
       if (response.message === ErrorDefaultAuthMessage.ErrEmailAlreadyExist) {
         form.setError('email', { message: 'Этот email уже используеся' }, { shouldFocus: true });
@@ -91,12 +87,12 @@ function AuthReg({ setState }: { setState: React.Dispatch<React.SetStateAction<A
     }
 
     if (alertShow) { setAlertShow(false); }
-    setState({ open: true, authType: 'logIn', emailSend: true } as AuthContentState);
+    setState({ open: true, authType: 'logIn', authAlert: { show: true, type: 'EmailSend' } } as AuthContentState);
   }
 
   return (
     <Form {...form}>
-      <AuthAlert show={alertShow} type='ErrorReg' />
+      <AuthAlert show={alertShow} type='Error' />
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}

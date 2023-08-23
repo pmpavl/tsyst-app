@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 
-const variantComplexity = (c: string):
+const complexityVariant = (c: string):
   'outline' | 'complexityEasy' | 'complexityNormal' | 'complexityHard' | 'complexityVeryHard' => {
   switch (c) {
     case 'Легко': return 'complexityEasy';
@@ -15,37 +15,18 @@ function BadgeSkeleton(): JSX.Element {
   return <Badge variant='outline' className='h-[22px] w-20 animate-pulse bg-primary/10' />;
 }
 
-function BadgeComplexityRender({ complexity }: { complexity: string }): JSX.Element {
-  return <Badge variant={variantComplexity(complexity)} className='w-fit'> {complexity} </Badge>;
+function BadgeView({ type, str }: {
+  type?: 'complexity' | 'theme',
+  str: string,
+}): JSX.Element {
+  switch (type) {
+    case 'complexity':
+      return <Badge variant={complexityVariant(str)} className='w-fit'> {str} </Badge>;
+    case 'theme':
+      return <Badge variant='outline' className='w-fit flex-none bg-background first:ml-1 last:mr-1'> {str} </Badge>;
+    default:
+      return <Badge variant='outline' className='w-fit'> {str} </Badge>;
+  }
 }
 
-function BadgeClassesRender({ classes }: { classes: string }): JSX.Element {
-  return <Badge variant='outline' className='w-fit'> {classes} </Badge>;
-}
-
-function BadgePointsRender({ points }: { points: string }): JSX.Element {
-  return <Badge variant='outline' className='w-fit'> {points} </Badge>;
-}
-
-function BadgeRepeatRender({ type }: { type: string }): JSX.Element {
-  return <Badge variant='outline' className='w-fit'> {type} </Badge>;
-}
-
-function BadgeThemesRender({ themes }: { themes: Array<string> }): JSX.Element {
-  return (
-    <div className='hide-scroll-bar flex max-w-full gap-2 overflow-x-scroll rounded-lg border bg-foreground/5 py-1 shadow-sm'>
-      {themes.map((theme, key) =>
-        <Badge key={key} variant='outline' className='w-fit flex-none bg-background first:ml-1 last:mr-1'> {theme} </Badge>)
-      }
-    </div>
-  );
-}
-
-export {
-  BadgeSkeleton,
-  BadgeComplexityRender,
-  BadgeClassesRender,
-  BadgePointsRender,
-  BadgeRepeatRender,
-  BadgeThemesRender,
-};
+export { BadgeSkeleton, BadgeView };

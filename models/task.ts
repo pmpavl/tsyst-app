@@ -1,27 +1,27 @@
-import { TaskTags } from '@/models';
+import { TaskTags, ITaskTags } from '@/models';
 
-export default class Task {
+interface ITask {
   condition: string;
-
   answer: string;
-
-  tags: TaskTags;
-
+  tags: ITaskTags;
   radio: Array<string>;
+}
 
-  constructor(_condition = '', _answer = '', _tags = new TaskTags, _radio = new Array<string>) {
-    this.condition = _condition;
-    this.answer = _answer;
-    this.tags = _tags;
-    this.radio = _radio;
-  }
+class Task {
+  public condition: string;
 
-  toJSON() {
-    return {
-      condition: this.condition,
-      answer: this.answer,
-      tags: this.tags,
-      radio: this.radio,
-    };
+  public answer: string;
+
+  public tags: TaskTags;
+
+  public radio: Array<string>;
+
+  constructor(obj: ITask) {
+    this.condition = obj.condition;
+    this.answer = obj.answer;
+    this.tags = new TaskTags(obj.tags);
+    this.radio = obj.radio;
   }
 }
+
+export { Task, type ITask };

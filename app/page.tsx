@@ -1,3 +1,7 @@
+import Link from 'next/link';
+
+import { Button } from '@/components/ui/button';
+
 export default function Page(): JSX.Element {
   return (
     <section className='container grid items-center gap-6 pb-8 pt-6 mobile:py-10'>
@@ -6,8 +10,15 @@ export default function Page(): JSX.Element {
           Система тестирования
         </h1>
         <p className='max-w-[700px] text-lg text-muted-foreground'>
-          Описание...
+          Эта система предназначена для удобного прохождения тестовых заданий, сбора статистики решения задач и анализа результатов.
         </p>
+      </div>
+      <div className='flex flex-row'>
+        <Link href={'/search'} target='_self'>
+          <Button variant='outline' size='lg'>
+            Найти тест
+          </Button>
+        </Link>
       </div>
     </section>
   );

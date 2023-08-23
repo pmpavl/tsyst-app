@@ -1,36 +1,31 @@
 import Link from 'next/link';
 
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Icons } from '@/components';
 
-type AuthAlertProps = {
+function SWWAlert(): JSX.Element {
+  return (
+    <>
+      <AlertTitle> Что-то пошло не так! </AlertTitle>
+      <AlertDescription> Перезагрузите страницу или попробуйте позже. </AlertDescription>
+    </>
+  );
+}
+
+interface AuthAlertProps {
   show: boolean,
-  type: 'ErrorReg' | 'ErrorLogIn' | 'EmailSend',
-};
+  type?: 'NeedAuth' | 'EmailSend' | 'Error',
+}
 
 function AuthAlert({ show, type }: AuthAlertProps): JSX.Element {
   switch (type) {
-    case 'ErrorReg':
+    case 'NeedAuth':
       return (
         <Alert variant='destructive' className={show ? 'block' : 'hidden'}>
           <Icons.alertTriangle className='h-4 w-4' />
-          <AlertTitle> Ошибка при регистрации </AlertTitle>
+          <AlertTitle> Необходимо авторизоваться </AlertTitle>
           <AlertDescription>
-            Что-то пошло не так, перезагрузите страницу или попробуйте позже.
-          </AlertDescription>
-        </Alert>
-      );
-    case 'ErrorLogIn':
-      return (
-        <Alert variant='destructive' className={show ? 'block' : 'hidden'}>
-          <Icons.alertTriangle className='h-4 w-4' />
-          <AlertTitle> Ошибка при входе </AlertTitle>
-          <AlertDescription>
-            Что-то пошло не так, перезагрузите страницу или попробуйте позже.
+            Для дальнейшего использования сайта, необходимо авторизоваться в системе.
           </AlertDescription>
         </Alert>
       );
@@ -44,16 +39,24 @@ function AuthAlert({ show, type }: AuthAlertProps): JSX.Element {
           </AlertDescription>
         </Alert>
       );
+    case 'Error':
+      return (
+        <Alert variant='destructive' className={show ? 'block' : 'hidden'}>
+          <Icons.alertTriangle className='h-4 w-4' />
+          <SWWAlert />
+        </Alert>
+      );
+    default: return <></>;
   }
 }
 
-type SearchAlertProps = {
-  type: 'NothingFound' | 'ErrorSearch',
-};
+interface TestsSearchAlertProps {
+  type: 'ErrNothingFound' | 'Error',
+}
 
-function SearchAlert({ type }: SearchAlertProps): JSX.Element {
+function TestsSearchAlert({ type }: TestsSearchAlertProps): JSX.Element {
   switch (type) {
-    case 'NothingFound':
+    case 'ErrNothingFound':
       return (
         <Alert className='mx-auto max-w-fit'>
           <Icons.alertTriangle className='h-4 w-4' />
@@ -63,50 +66,84 @@ function SearchAlert({ type }: SearchAlertProps): JSX.Element {
           </AlertDescription>
         </Alert>
       );
-    case 'ErrorSearch':
+    case 'Error':
       return (
         <Alert variant='destructive' className='mx-auto max-w-fit'>
           <Icons.alertTriangle className='h-4 w-4' />
-          <AlertTitle> Ошибка при поиске </AlertTitle>
-          <AlertDescription>
-            Что-то пошло не так, перезагрузите страницу или попробуйте позже.
-          </AlertDescription>
+          <SWWAlert />
         </Alert>
       );
+    default: return <></>;
   }
 }
 
-type TestAlertProps = {
-  type: 'NothingFound' | 'ErrorTest',
-};
+interface TestsLandingAlertProps {
+  type: 'ErrNothingFound' | 'Error',
+}
 
-function TestAlert({ type }: TestAlertProps): JSX.Element {
+function TestsLandingAlert({ type }: TestsLandingAlertProps): JSX.Element {
   switch (type) {
-    case 'NothingFound':
+    case 'ErrNothingFound':
       return (
         <Alert className='mx-auto mt-6 max-w-fit'>
           <Icons.alertTriangle className='h-4 w-4' />
-          <AlertTitle> Такого теста не существует </AlertTitle>
+          <AlertTitle> Теста не существует </AlertTitle>
           <AlertDescription>
             Поищите другой тест на странице <Link className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' href='/search'>поиска</Link>.
           </AlertDescription>
         </Alert>
       );
-    case 'ErrorTest':
+    case 'Error':
       return (
         <Alert variant='destructive' className='mx-auto mt-6 max-w-fit'>
           <Icons.alertTriangle className='h-4 w-4' />
-          <AlertTitle> Ошибка при загрузке </AlertTitle>
+          <SWWAlert />
+        </Alert>
+      );
+    default: return <></>;
+  }
+}
+
+interface PassageAlertProps {
+  type: 'ErrPassageIDNotExist' | 'ErrIncorrectPassageUser' | 'Error',
+}
+
+function PassageAlert({ type }: PassageAlertProps): JSX.Element {
+  switch (type) {
+    case 'ErrPassageIDNotExist':
+      return (
+        <Alert className='mx-auto mt-6 max-w-fit'>
+          <Icons.alertTriangle className='h-4 w-4' />
+          <AlertTitle> Такого прохождения не существует </AlertTitle>
           <AlertDescription>
-            Что-то пошло не так, перезагрузите страницу или попробуйте позже.
+            Поищите подходящий для себя тест на странице <Link className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' href='/search'>поиска</Link>.
           </AlertDescription>
         </Alert>
       );
+    case 'ErrIncorrectPassageUser':
+      return (
+        <Alert className='mx-auto mt-6 max-w-fit'>
+          <Icons.alertTriangle className='h-4 w-4' />
+          <AlertTitle> Это не ваше прохождение </AlertTitle>
+          <AlertDescription>
+            Поищите тест на странице <Link className='inline cursor-pointer bg-gradient-to-br from-blue-600 to-emerald-400 bg-clip-text font-extrabold text-transparent' href='/search'>поиска</Link>.
+          </AlertDescription>
+        </Alert>
+      );
+    case 'Error':
+      return (
+        <Alert variant='destructive' className='mx-auto mt-6 max-w-fit'>
+          <Icons.alertTriangle className='h-4 w-4' />
+          <SWWAlert />
+        </Alert>
+      );
+    default: return <></>;
   }
 }
 
 export {
-  type AuthAlertProps, AuthAlert,
-  type SearchAlertProps, SearchAlert,
-  type TestAlertProps, TestAlert,
+  AuthAlert, type AuthAlertProps,
+  TestsSearchAlert, type TestsSearchAlertProps,
+  TestsLandingAlert, type TestsLandingAlertProps,
+  PassageAlert, type PassageAlertProps,
 };

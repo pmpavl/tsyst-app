@@ -1,18 +1,10 @@
 import Link from 'next/link';
 
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import {
-  BadgeSkeleton,
-  BadgeComplexityRender,
-  BadgeClassesRender,
-} from '@/components';
-import { TestCard } from '@/models';
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { BadgeSkeleton, BadgeView } from '@/components';
+import { ITestCard, TestCard } from '@/models';
+import { cn } from '@/lib/utils';
 
 function TestCardSkeleton(): JSX.Element {
   return (
@@ -31,16 +23,21 @@ function TestCardSkeleton(): JSX.Element {
   );
 }
 
-function TestCardRender({ card }: { card: TestCard }): JSX.Element {
+function TestCardView({ icard }: { icard: ITestCard }): JSX.Element {
+  const card = new TestCard(icard);
+
   return (
     <Link href={`/test/${card.path}`} target='_self'>
-      <Card className='cursor-pointer hover:bg-accent'>
+      <Card className={cn(
+        'cursor-pointer hover:bg-accent',
+        card.lastPassage === undefined ? '' : card.lastPassage.border(),
+      )}>
         <CardHeader>
           <CardTitle className='flex flex-row flex-wrap items-center gap-2'>
             {card.name}
             <div className='flex flex-row flex-wrap gap-2'>
-              <BadgeClassesRender classes={card.tags.classes} />
-              <BadgeComplexityRender complexity={card.tags.complexity} />
+              <BadgeView str={card.tags.classes} />
+              <BadgeView type='complexity' str={card.tags.complexity} />
             </div>
           </CardTitle>
           <CardDescription className='line-clamp-3 h-[60px]'> {card.description} </CardDescription>
@@ -50,4 +47,4 @@ function TestCardRender({ card }: { card: TestCard }): JSX.Element {
   );
 }
 
-export { TestCardSkeleton, TestCardRender };
+export { TestCardSkeleton, TestCardView };

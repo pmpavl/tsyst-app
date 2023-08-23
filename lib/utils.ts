@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { clsx, type ClassValue } from 'clsx';
 
 export const ACCESS_TOKEN = 'ACCESS_TOKEN';
 export const ACCESS_TOKEN_MAX_AGE = 86400; // 1 day
@@ -18,14 +18,13 @@ export function getSecondsFromMilliseconds(ms: number): number { return Math.flo
 
 export function convertSecondsToMilliseconds(s: number): number { return s * 1000; }
 export function convertSecondsToNanoseconds(s: number): number { return s * 1000000000; }
-
 export function convertMillisecondsToSeconds(ms: number): number { return Math.floor(ms / 1000); }
 export function convertMillisecondsToNanoseconds(ms: number): number { return ms * 1000000; }
+export function convertNanosecondsToMilliseconds(ms: number): number { return Math.floor(ms / 1000000); }
 
 export function setCookie(name: string, value: string, maxAge: number = 24 * 60 * 60): void {
   document.cookie = `${name}=${value}; max-age=${maxAge}; path=/`;
 }
-
 export function getCookie(name: string): string {
   const parts = `; ${document.cookie}`.split(`; ${name}=`);
 
@@ -35,7 +34,6 @@ export function getCookie(name: string): string {
 
   return '';
 }
-
 export function deleteCookie(name: string): void {
   document.cookie = `${name}=; max-age=0; path=/`;
 }

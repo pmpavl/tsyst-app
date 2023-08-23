@@ -2,11 +2,11 @@ import * as React from 'react';
 import { cookies } from 'next/headers';
 
 import {
-  APItests,
-  SearchRequest,
-  ErrorDefault, ErrorDefaultTestsMessage,
+  APITests, ErrorDefault, ErrorDefaultTestsMessage,
+  TestsSearchRequest,
 } from '@/api';
-import { SearchAlert, SearchPagination, TestCardRender } from '@/components';
+
+import { SearchPagination, TestCardView, TestsSearchAlert } from '@/components';
 
 type PageProps = { searchParams: { name: string, class: number, complexity: string, page: number } };
 
@@ -18,25 +18,26 @@ export default async function Page({ searchParams }: PageProps): Promise<JSX.Ele
   const cookieStore = cookies();
   const accessToken = cookieStore.get('ACCESS_TOKEN')?.value;
 
-  const response = await APItests.search(new SearchRequest(
-    searchParams.name,
-    searchParams.class,
-    searchParams.complexity,
-    searchParams.page,
-    accessToken,
-  ));
+  const testsSearchRequest = new TestsSearchRequest({
+    accessToken: accessToken,
+    name: searchParams.name,
+    class: searchParams.class,
+    complexity: searchParams.complexity,
+    page: searchParams.page,
+  });
+  const response = await APITests.search(testsSearchRequest);
   if (response instanceof ErrorDefault) {
     if (response.message === ErrorDefaultTestsMessage.ErrNothingFound) {
-      return <SearchAlert type='NothingFound' />;
+      return <TestsSearchAlert type='ErrNothingFound' />;
     }
 
-    return <SearchAlert type='ErrorSearch' />;
+    return <TestsSearchAlert type='Error' />;
   }
 
   return (
     <>
       <div className='grid w-full grid-cols-1 justify-center gap-4 tablet:grid-cols-2'>
-        {response.cards.map((card, key) => <TestCardRender key={key} card={card} />)}
+        {response.cards.map((icard, key) => <TestCardView key={key} icard={icard} />)}
       </div>
       <SearchPagination countPages={response.countPages} currentPage={Number(searchParams.page) || 1} />
     </>

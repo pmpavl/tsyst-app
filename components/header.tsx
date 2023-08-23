@@ -2,7 +2,7 @@ import * as React from 'react';
 import Link from 'next/link';
 
 import { buttonVariants } from '@/components/ui/button';
-import { Icons, HeaderAuth, ThemeToggle } from '@/components';
+import { HeaderAuth, Icons, ThemeToggle } from '@/components';
 
 function Header(): JSX.Element {
   return (

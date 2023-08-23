@@ -1,8 +1,8 @@
 import {
   AlertTriangle, Check,
-  ChevronLeft, ChevronsLeft, ChevronRight, ChevronsRight, ChevronDown, ChevronUp, Dot,
-  Github, Search, Settings, Sun, Moon, User,
-  Mail, Eye, EyeOff, LogIn, LogOut, Loader, LucideProps,
+  ChevronLeft, ChevronsLeft, ChevronRight, ChevronsRight, ChevronDown, ChevronUp,
+  Dot, Github, Search, Settings, Sun, Moon, User,
+  Mail, Eye, EyeOff, LogIn, LogOut, Loader, Loader2, LucideProps, X,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -30,6 +30,8 @@ const Icons = {
   login: LogIn,
   logOut: LogOut,
   loader: Loader,
+  loader2: Loader2,
+  x: X,
   logo: (props: LucideProps) => ( // MSU Logo
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000.000000 1000.000000" fill="currentColor" {...props}>
       <g transform="translate(0.000000,1000.000000) scale(0.100000,-0.100000)">

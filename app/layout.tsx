@@ -4,13 +4,9 @@ import { Metadata } from 'next';
 
 import { fontSans } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
-import {
-  AppProvider,
-  ThemeProvider,
-  Header,
-  TailwindIndicator,
-  LoaderProvider,
-} from '@/components';
+import { Toaster } from '@/components/ui/toaster';
+import { AppProvider, ThemeProvider, LoaderProvider } from '@/components/providers';
+import { Header, TailwindIndicator } from '@/components';
 
 export const metadata: Metadata = {
   title: 'Система тестирования',
@@ -48,6 +44,7 @@ export default function RootLayout({ children }: React.PropsWithChildren): JSX.E
             <TailwindIndicator />
           </ThemeProvider>
         </AppProvider>
+        <Toaster />
       </body>
     </html>
   );

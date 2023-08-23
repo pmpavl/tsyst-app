@@ -1,21 +1,21 @@
-export default class TestTask {
+interface ITestTask {
   complexity: string;
-
   themes: Array<string>;
-
   points: string;
+}
 
-  constructor(_complexity = '', _themes = new Array<string>, _points = '') {
-    this.complexity = _complexity;
-    this.themes = _themes;
-    this.points = _points;
-  }
+class TestTask {
+  public complexity: string;
 
-  toJSON() {
-    return {
-      complexity: this.complexity,
-      themes: this.themes,
-      points: this.points,
-    };
+  public themes: Array<string>;
+
+  public points: string;
+
+  constructor(obj: ITestTask) {
+    this.complexity = obj.complexity;
+    this.themes = obj.themes;
+    this.points = obj.points;
   }
 }
+
+export { TestTask, type ITestTask };

@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 
-import { AppContext, Icons } from '@/components';
+import { AppContext } from '@/components/providers';
+import { Icons } from '@/components';
 
 function LoaderProvider({ children }: React.PropsWithChildren): JSX.Element {
   return (

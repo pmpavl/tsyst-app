@@ -1,9 +1,9 @@
-export enum ErrorDefaultMessage {
+enum ErrorDefaultMessage {
   'ErrRequestTimeout' = 'service waiting timeout',
   'ErrServiceUnavailable' = 'service does not answer',
 }
 
-export enum ErrorDefaultAuthMessage {
+enum ErrorDefaultAuthMessage {
   'ErrAcessTokenNotExist' = 'access token not exist',
   'ErrRefreshTokenNotExist' = 'refresh token not exist',
   'ErrEmailNotExist' = 'email not exist',
@@ -12,11 +12,24 @@ export enum ErrorDefaultAuthMessage {
   'ErrWrongPassword' = 'wrong password',
 }
 
-export enum ErrorDefaultTestsMessage {
+enum ErrorDefaultPassageMessage {
+  'ErrAccessTokenNotExist' = 'access token not exist',
+  'ErrTestPathNotExist' = 'test path not exist',
+  'ErrAlreadyStart' = 'already start',
+  'ErrDisposable' = 'disposable',
+  'ErrTimeToRepeat' = 'time to repeat',
+  'ErrIncorrectlyCompiledTest' = 'incorrectly compiled test',
+  'ErrPassageIDNotExist' = 'passage id not exist',
+  'ErrIncorrectPassageUser' = 'incorrect passage user',
+  'ErrAlreadyEnd' = 'already end',
+  'ErrNotActualTaskNum' = 'not actual task num',
+}
+
+enum ErrorDefaultTestsMessage {
   'ErrNothingFound' = 'nothing found',
 }
 
-export class ErrorDefault extends Error {
+class ErrorDefault extends Error {
   private status: number;
 
   private code: string;
@@ -28,25 +41,34 @@ export class ErrorDefault extends Error {
     this.code = code;
   }
 
-  /** 400 */
-  isBadRequest(): boolean { return this.status === 400; }
+  /** `400` */
+  public isBadRequest(): boolean { return this.status === 400; }
 
-  /** 403 */
-  isForbidden(): boolean { return this.status === 403; }
+  /** `403` */
+  public isForbidden(): boolean { return this.status === 403; }
 
-  /** 404 */
-  isNotFound(): boolean { return this.status === 404; }
+  /** `404` */
+  public isNotFound(): boolean { return this.status === 404; }
 
-  /** 408 */
-  isRequestTimeout(): boolean { return this.status === 408; }
+  /** `408` */
+  public isRequestTimeout(): boolean { return this.status === 408; }
 
-  /** 500 */
-  isInternalServerError(): boolean { return this.status === 500; }
+  /** `409` */
+  public isConflict(): boolean { return this.status === 409; }
 
-  /** 503 */
-  isServiceUnavailable(): boolean { return this.status === 503; }
+  /** `500` */
+  public isInternalServerError(): boolean { return this.status === 500; }
+
+  /** `503` */
+  public isServiceUnavailable(): boolean { return this.status === 503; }
 }
 
-export const ErrorRequestTimeout = new ErrorDefault(408, 'Request Timeout', ErrorDefaultMessage.ErrRequestTimeout);
+const ErrorRequestTimeout = new ErrorDefault(408, 'Request Timeout', ErrorDefaultMessage.ErrRequestTimeout);
 
-export const ErrorServiceUnavailable = new ErrorDefault(503, 'Service Unavailable', ErrorDefaultMessage.ErrServiceUnavailable);
+const ErrorServiceUnavailable = new ErrorDefault(503, 'Service Unavailable', ErrorDefaultMessage.ErrServiceUnavailable);
+
+export {
+  ErrorDefaultMessage, ErrorDefaultAuthMessage, ErrorDefaultPassageMessage, ErrorDefaultTestsMessage,
+  ErrorDefault,
+  ErrorRequestTimeout, ErrorServiceUnavailable,
+};

@@ -1,27 +1,34 @@
-import { TestTags } from '@/models';
+import {
+  TestTags, ITestTags,
+  TestPassage, ITestPassage,
+} from '@/models';
 
-export default class TestCard {
+interface ITestCard {
   path: string;
-
   name: string;
-
   description: string;
+  tags: ITestTags;
+  lastPassage?: ITestPassage
+}
 
-  tags: TestTags;
+class TestCard {
+  public path: string;
 
-  constructor(_path = '', _name = '', _description = '', _tags = new TestTags) {
-    this.path = _path;
-    this.name = _name;
-    this.description = _description;
-    this.tags = _tags;
-  }
+  public name: string;
 
-  toJSON() {
-    return {
-      path: this.path,
-      name: this.name,
-      description: this.description,
-      tags: this.tags,
-    };
+  public description: string;
+
+  public tags: TestTags;
+
+  public lastPassage?: TestPassage;
+
+  constructor(obj: ITestCard) {
+    this.path = obj.path;
+    this.name = obj.name;
+    this.description = obj.description;
+    this.tags = new TestTags(obj.tags);
+    this.lastPassage = obj.lastPassage === undefined ? undefined : new TestPassage(obj.lastPassage);
   }
 }
+
+export { TestCard, type ITestCard };

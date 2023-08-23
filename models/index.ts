@@ -1,10 +1,14 @@
-export { default as Task } from './task';
-export { default as TaskTags } from './taskTags';
+export * from './task';
+export * from './taskTags';
 
-export { default as Test } from './test';
-export { default as TestCard } from './testCard';
-export { default as TestTags } from './testTags';
-export { default as TestRepeat } from './testRepeat';
-export { default as TestTask } from './testTask';
+export * from './test';
+export * from './testCard';
+export * from './testTags';
+export * from './testRepeat';
+export * from './testTask';
+export * from './testPassage';
 
-export { default as UserTokens } from './userTokens';
+export * from './passage';
+export * from './passageTask';
+
+export * from './userTokens';

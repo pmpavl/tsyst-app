@@ -9,62 +9,60 @@ import {
   getSecondsFromMilliseconds,
 } from '@/lib/utils';
 
-type TickerProps = {
+interface TimeProps {
   hours: number
   minutes: number
   seconds: number
-};
+}
 
-function getTickerProps(end: Date): TickerProps {
-  const diff = end.getTime() - new Date().getTime();
+function TimeRender({ count, type }: { count: number, type: 'ч' | 'м' | 'с' }): JSX.Element {
+  return (
+    <div>
+      <span className='countdown font-mono text-base'>
+        {/* @ts-ignore */}
+        <span style={{ '--value': count }} />
+      </span>
+      {`${type}.`}
+    </div>
+  );
+}
+
+function Time({ props }: { props: TimeProps }): JSX.Element {
+  return (
+    <div className='my-auto flex gap-2'>
+      {props.hours === 0 ? <></>
+        : <TimeRender count={props.hours} type='ч' />
+      }
+      {props.hours === 0 && props.minutes === 0 ? <></>
+        : <TimeRender count={props.minutes} type='м' />
+      }
+      <TimeRender count={props.seconds} type='с' />
+    </div >
+  );
+}
+
+function getTimeProps(start: Date, end: Date): TimeProps {
+  const diff = end.getTime() - start.getTime();
 
   return {
     hours: diff > 0 ? getHoursFromMilliseconds(diff) : 0,
     minutes: diff > 0 ? getMinutesFromMilliseconds(diff) : 0,
     seconds: diff > 0 ? getSecondsFromMilliseconds(diff) : 0,
-  } as TickerProps;
+  };
 }
 
+function getTimePropsFromNow(end: Date): TimeProps { return getTimeProps(new Date(), end); }
+
 function Ticker({ end }: { end: Date }): JSX.Element {
-  const [tickerProps, setTickerProps] = React.useState<TickerProps>(getTickerProps(end));
+  const [timeProps, setTimeProps] = React.useState<TimeProps>(getTimePropsFromNow(end));
 
   React.useEffect(() => {
-    const timer = setTimeout(() => setTickerProps(getTickerProps(end)), 1000);
+    const timer = setTimeout(() => setTimeProps(getTimePropsFromNow(end)), 1000);
 
     return () => clearTimeout(timer);
   });
 
-  return (
-    <div className='my-auto flex gap-2'>
-      {tickerProps.hours === 0 ? <></>
-        : (
-          <div>
-            <span className='countdown font-mono text-base'>
-              {/* @ts-ignore */}
-              <span style={{ '--value': tickerProps.hours }} />
-            </span>
-            ч.
-          </div>
-        )}
-      {tickerProps.hours === 0 && tickerProps.minutes === 0 ? <></>
-        : (
-          <div>
-            <span className='countdown font-mono text-base'>
-              {/* @ts-ignore */}
-              <span style={{ '--value': tickerProps.minutes }} />
-            </span>
-            м.
-          </div>
-        )}
-      <div>
-        <span className='countdown font-mono text-base'>
-          {/* @ts-ignore */}
-          <span style={{ '--value': tickerProps.seconds }} />
-        </span>
-        с.
-      </div>
-    </div >
-  );
+  return <Time props={timeProps} />;
 }
 
-export { Ticker };
+export { Ticker, Time, getTimeProps };

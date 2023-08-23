@@ -1,35 +1,44 @@
-import { TestTags, TestRepeat, TestTask } from '@/models';
+import {
+  TestTags, ITestTags,
+  TestRepeat, ITestRepeat,
+  TestTask, ITestTask,
+  TestPassage, ITestPassage,
+} from '@/models';
 
-export default class Test {
+interface ITest {
   path: string;
-
   name: string;
-
   description: string;
+  tags: ITestTags;
+  repeat: ITestRepeat;
+  tasks: Array<ITestTask>;
+  passages?: Array<ITestPassage>;
+}
 
-  tags: TestTags;
+class Test {
+  public path: string;
 
-  repeat: TestRepeat;
+  public name: string;
 
-  tasks: Array<TestTask>;
+  public description: string;
 
-  constructor(_path = '', _name = '', _description = '', _tags = new TestTags, _repeat = new TestRepeat, _tasks = new Array<TestTask>) {
-    this.path = _path;
-    this.name = _name;
-    this.description = _description;
-    this.tags = _tags;
-    this.repeat = _repeat;
-    this.tasks = _tasks;
-  }
+  public tags: TestTags;
 
-  toJSON() {
-    return {
-      path: this.path,
-      name: this.name,
-      description: this.description,
-      tags: this.tags,
-      repeat: this.repeat,
-      tasks: this.tasks,
-    };
+  public repeat: TestRepeat;
+
+  public tasks: Array<TestTask>;
+
+  public passages?: Array<TestPassage>;
+
+  constructor(obj: ITest) {
+    this.path = obj.path;
+    this.name = obj.name;
+    this.description = obj.description;
+    this.tags = new TestTags(obj.tags);
+    this.repeat = new TestRepeat(obj.repeat);
+    this.tasks = obj.tasks.map<TestTask>((task) => new TestTask(task));
+    this.passages = obj.passages === undefined ? undefined : obj.passages.map<TestPassage>((passage) => new TestPassage(passage));
   }
 }
+
+export { Test, type ITest };

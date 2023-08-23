@@ -1,37 +1,32 @@
 import { convertSecondsToMilliseconds } from '@/lib/utils';
 import {
-  ErrorDefault,
-  ErrorRequestTimeout,
-  ErrorServiceUnavailable,
-} from '@/api/errorDefault';
-import {
-  SearchRequest,
-  SearchResponse,
-  LandingRequest,
+  ErrorDefault, ErrorRequestTimeout, ErrorServiceUnavailable,
+  Composer,
+  TestsSearchRequest, ITestsSearchResponse,
+  TestsLandingRequest, ITestsLandingResponse,
 } from '@/api';
-import { Test } from '@/models';
 
 const DEFAULT_TIMEOUT: number = convertSecondsToMilliseconds(2);
 
 class API {
-  private url: string;
+  private host: string;
 
   private timeout: number;
 
-  constructor(url: string) {
-    this.url = url;
+  constructor(host: string) {
+    this.host = host;
     this.timeout = DEFAULT_TIMEOUT;
   }
 
   /**
-   * Generic request method for using fetch with timeout.
+   * Generic do request method for using fetch with timeout and service unavailable.
    *
-   * Status: `200` | `408` | `503`.
+   * Additional status: `200` | `408` | `503`.
    *
    * @param input request information to send with fetch.
    * @returns a Promise containing the `ErrorDefault` and `T`.
    */
-  private async request<T>(input: RequestInfo | URL, init?: RequestInit): Promise<ErrorDefault | T> {
+  private async do<T>(input: RequestInfo | URL, init?: RequestInit): Promise<ErrorDefault | T> {
     try {
       const controller: AbortController = new AbortController();
       const timeout: NodeJS.Timeout = setTimeout(() => controller.abort(), this.timeout);
@@ -59,47 +54,32 @@ class API {
     }
   }
 
+  /** Generic compose request and do method. */
+  private async send<C extends Composer, T>(req: C): Promise<ErrorDefault | T> { return this.do(req.compose(this.host)); }
+
   /**
    * Search tests.
    *
-   * Status: `200` | `400` | `408` | `500` | `503`.
+   * Status: `400` | `404` | `500`.
    *
-   * @param request
+   * Additional status: `200` | `408` | `503`.
    */
-  public async search(request: SearchRequest): Promise<ErrorDefault | SearchResponse> {
-    const response: ErrorDefault | SearchResponse = await this.request<SearchResponse>(
-      new Request(`${this.url}/tests/search?${request.URLSearchParams().toString()}`, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: request.Headers(),
-      }),
-    );
-
-    return response;
-  }
+  public async search(req: TestsSearchRequest):
+    Promise<ErrorDefault | ITestsSearchResponse> { return this.send(req); }
 
   /**
-   * Landing test page.
+   * Landing test.
    *
-   * Status: `200` | `400` | `404` | `408` | `500` | `503`.
+   * Status: `400` | `404` |`500`.
+   *
+   * Additional status: `200` | `408` | `503`.
    *
    * @param request
    */
-  public async landing(request: LandingRequest): Promise<ErrorDefault | Test> {
-    const response: ErrorDefault | Test = await this.request<Test>(
-      new Request(`${this.url}/tests/landing?${request.URLSearchParams().toString()}`, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-cache',
-        headers: request.Headers(),
-      }),
-    );
-
-    return response;
-  }
+  public async landing(req: TestsLandingRequest):
+    Promise<ErrorDefault | ITestsLandingResponse> { return this.send(req); }
 }
 
-const APItests: API = new API(process.env.NEXT_PUBLIC_HOST || 'http://localhost:7784');
+const APITests: API = new API(process.env.NEXT_PUBLIC_HOST || 'http://localhost:7784');
 
-export default APItests;
+export default APITests;

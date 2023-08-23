@@ -7,11 +7,12 @@ import { useForm } from 'react-hook-form';
 import bcrypt from 'bcryptjs';
 
 import {
-  APIauth,
-  ErrorDefault, ErrorDefaultAuthMessage,
+  APIAuth, ErrorDefault, ErrorDefaultAuthMessage,
   PasswordSaltByEmailRequest,
   AuthenticationRequest,
 } from '@/api';
+
+import { AppContext } from '@/components/providers';
 import {
   Form,
   FormControl,
@@ -22,7 +23,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { AppContext, AuthAlert, AuthAlertProps, AuthContentState } from '@/components';
+import { AuthAlert, AuthAlertProps, AuthContentState } from '@/components';
 
 const loginSchema = z.object({
   email: z.string({
@@ -34,33 +35,28 @@ const loginSchema = z.object({
 });
 
 function AuthLogIn({
-  emailSend,
+  authAlert,
   setState,
 }: {
-  emailSend: boolean,
+  authAlert: AuthAlertProps
   setState: React.Dispatch<React.SetStateAction<AuthContentState>>,
 }): JSX.Element {
   const { login } = React.useContext(AppContext);
-  const [authAlertProps, setAuthAlertProps] = React.useState<AuthAlertProps>({
-    show: emailSend,
-    type: 'EmailSend',
-  } as AuthAlertProps);
+  const [authAlertProps, setAuthAlertProps] = React.useState<AuthAlertProps>(authAlert);
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: '',
-      password: '',
-    },
+    defaultValues: { email: '', password: '' },
   });
 
   async function onSubmit(values: z.infer<typeof loginSchema>) {
     /** Get password salt */
-    const responsePasswordSaltByEmail = await APIauth.passwordSaltByEmail(new PasswordSaltByEmailRequest(values.email));
+    const passwordSaltByEmailRequest = new PasswordSaltByEmailRequest({ email: values.email });
+    const responsePasswordSaltByEmail = await APIAuth.passwordSaltByEmail(passwordSaltByEmailRequest);
     if (responsePasswordSaltByEmail instanceof ErrorDefault) {
       if (responsePasswordSaltByEmail.message === ErrorDefaultAuthMessage.ErrEmailNotExist) {
         form.setError('email', { message: 'Пользователя с таким email не существует' }, { shouldFocus: true });
       } else {
-        setAuthAlertProps({ show: true, type: 'ErrorLogIn' });
+        setAuthAlertProps({ show: true, type: 'Error' });
       }
 
       return;
@@ -71,13 +67,14 @@ function AuthLogIn({
       return new ErrorDefault(500, 'Internal Service Error', 'Uncorrect Salt');
     });
     if (hashPassword instanceof ErrorDefault) {
-      setAuthAlertProps({ show: true, type: 'ErrorLogIn' });
+      setAuthAlertProps({ show: true, type: 'Error' });
 
       return;
     }
 
     /** Authorize user by email and hash password */
-    const responseAuthentication = await APIauth.authentication(new AuthenticationRequest(values.email, hashPassword));
+    const authenticationRequest = new AuthenticationRequest({ email: values.email, password: hashPassword });
+    const responseAuthentication = await APIAuth.authentication(authenticationRequest);
     if (responseAuthentication instanceof ErrorDefault) {
       if (responseAuthentication.message === ErrorDefaultAuthMessage.ErrEmailNotExist) {
         form.setError('email', { message: 'Пользователя с таким email не существует' }, { shouldFocus: true });
@@ -86,14 +83,14 @@ function AuthLogIn({
       } else if (responseAuthentication.message === ErrorDefaultAuthMessage.ErrWrongPassword) {
         form.setError('password', { message: 'Неверный пароль' }, { shouldFocus: true });
       } else {
-        setAuthAlertProps({ show: true, type: 'ErrorLogIn' });
+        setAuthAlertProps({ show: true, type: 'Error' });
       }
 
       return;
     }
 
     login(responseAuthentication.accessToken, responseAuthentication.refreshToken);
-    setState({ open: false, authType: 'logIn', emailSend: false } as AuthContentState);
+    setState({ open: false, authType: 'logIn', authAlert: { show: false } } as AuthContentState);
   }
 
   return (

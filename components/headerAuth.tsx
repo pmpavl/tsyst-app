@@ -3,6 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 
+import { AppContext } from '@/components/providers';
 import {
   Sheet,
   SheetClose,
@@ -22,14 +23,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { AppContext, Auth, Icons } from '@/components';
+import { Auth, Icons } from '@/components';
 
 function HeaderAuth(): JSX.Element {
   const { auth, logout } = React.useContext(AppContext);
 
-  if (!auth) {
-    return <Auth />;
-  }
+  if (!auth) { return <Auth />; }
 
   return (
     <>
@@ -44,15 +43,9 @@ function HeaderAuth(): JSX.Element {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              <Link href='/search' target='_self' className='flex w-full flex-row gap-2 text-sm'>
+              <Link href='/profile' target='_self' className='flex w-full flex-row gap-2 text-sm'>
                 Профиль
                 <Icons.user className='ml-auto h-5 w-5 text-xs tracking-widest opacity-60' />
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Link href='/' target='_self' className='flex w-full flex-row gap-2 text-sm'>
-                Настройки
-                <Icons.settings className='ml-auto h-5 w-5 text-xs tracking-widest opacity-60' />
               </Link>
             </DropdownMenuItem>
           </DropdownMenuGroup>

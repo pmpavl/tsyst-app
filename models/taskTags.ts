@@ -1,21 +1,21 @@
-export default class TaskTags {
+interface ITaskTags {
   type: string;
-
   complexity: string;
-
   themes: Array<string>;
+}
 
-  constructor(_type = '', _complexity = '', _themes = new Array<string>) {
-    this.type = _type;
-    this.complexity = _complexity;
-    this.themes = _themes;
-  }
+class TaskTags {
+  public type: string;
 
-  toJSON() {
-    return {
-      type: this.type,
-      complexity: this.complexity,
-      themes: this.themes,
-    };
+  public complexity: string;
+
+  public themes: Array<string>;
+
+  constructor(obj: ITaskTags) {
+    this.type = obj.type;
+    this.complexity = obj.complexity;
+    this.themes = obj.themes;
   }
 }
+
+export { TaskTags, type ITaskTags };
