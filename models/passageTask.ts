@@ -2,7 +2,6 @@ import { TaskTags, ITaskTags } from '@/models';
 
 interface IPassageTask {
   condition: string;
-  answer: string;
   tags: ITaskTags;
   radio?: Array<string>;
   points: string;
@@ -13,8 +12,6 @@ interface IPassageTask {
 
 class PassageTask {
   public condition: string;
-
-  public answer: string;
 
   public tags: TaskTags;
 
@@ -30,7 +27,6 @@ class PassageTask {
 
   constructor(obj: IPassageTask) {
     this.condition = obj.condition;
-    this.answer = obj.answer;
     this.tags = new TaskTags(obj.tags);
     this.radio = obj.radio;
     this.points = obj.points;

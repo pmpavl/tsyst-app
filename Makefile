@@ -7,7 +7,7 @@ PORT?=80
 PORT_APP?=80
 
 CONTAINER_IMAGE?=$(PROJECT)/${APP}
-RELEASE?=0.0.1
+RELEASE?=0.0.2
 
 container-build:
 	@docker build \

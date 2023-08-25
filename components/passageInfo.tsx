@@ -52,7 +52,7 @@ function PassageInfoMetaView({ passage }: { passage: Passage }): JSX.Element {
           {`Вы набрали ${passage.score}`}
         </Badge>
         <Badge variant={passage.passed ? 'success' : 'fail'} className='w-fit'>
-          {passage.score > passage.points ? 'Тест пройден' : 'Тест не пройден'}
+          {passage.passed ? 'Тест пройден' : 'Тест не пройден'}
         </Badge>
       </div>
       <p className='max-w-[700px] text-lg text-muted-foreground'>
