@@ -1,29 +1,47 @@
-import * as React from 'react';
-import { cookies } from 'next/headers';
+'use client';
+
+import React from 'react';
+import { useParams } from 'next/navigation';
 
 import {
   APITests, ErrorDefault, ErrorDefaultTestsMessage,
   TestsLandingRequest,
+  ITestsLandingResponse,
 } from '@/api';
 
-import { TestView, TestsLandingAlert } from '@/components';
+import { AppContext } from '@/components/providers';
+import {
+  TestSkeleton, TestView,
+  TestsLandingAlert,
+} from '@/components';
 
-type PageProps = { params: { path: string } };
+export default function Page(): JSX.Element {
+  const params = useParams();
+  const { tokens } = React.useContext(AppContext);
+  const [data, setData] = React.useState<ErrorDefault | ITestsLandingResponse | undefined>(undefined);
 
-export default async function Page({ params }: PageProps): Promise<JSX.Element> {
-  //? Костыль получения ACCESS_TOKEN в server компоненте
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('ACCESS_TOKEN')?.value;
+  React.useEffect(() => {
+    const fetch = async () => setData(await APITests.landing(new TestsLandingRequest({
+      accessToken: tokens?.accessToken,
+      path: String(params.path),
+    })));
 
-  const testsLandingRequest = new TestsLandingRequest({ accessToken: accessToken, path: params.path });
-  const response = await APITests.landing(testsLandingRequest);
-  if (response instanceof ErrorDefault) {
-    if (response.message === ErrorDefaultTestsMessage.ErrNothingFound) {
+    fetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Loading skeleton
+  if (data === undefined) return <TestSkeleton />;
+
+  // Error
+  if (data instanceof ErrorDefault) {
+    if (data.message === ErrorDefaultTestsMessage.ErrNothingFound) {
       return <TestsLandingAlert type='ErrNothingFound' />;
     }
 
     return <TestsLandingAlert type='Error' />;
   }
 
-  return <TestView itest={response} />;
+  // View
+  return <TestView itest={data} />;
 }

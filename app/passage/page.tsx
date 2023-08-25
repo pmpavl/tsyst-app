@@ -1,24 +1,46 @@
-import * as React from 'react';
-import { cookies } from 'next/headers';
+'use client';
+
+import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import {
   APIPassage, ErrorDefault, ErrorDefaultPassageMessage,
   PassageReadRequest,
+  IPassageReadResponse,
 } from '@/api';
 
-import { PassageAlert, PassageView } from '@/components';
+import { AppContext } from '@/components/providers';
+import {
+  PassageSkeleton, PassageView,
+  PassageAlert,
+} from '@/components';
 
-type PageProps = { searchParams: { id: string } };
+export default function Page(): JSX.Element {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { auth, tokens } = React.useContext(AppContext);
+  const [data, setData] = React.useState<ErrorDefault | IPassageReadResponse | undefined>(undefined);
 
-export default async function Page({ searchParams }: PageProps): Promise<JSX.Element> {
-  //? Костыль получения ACCESS_TOKEN в server компоненте
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('ACCESS_TOKEN')?.value;
+  React.useEffect(() => {
+    const fetch = async () => setData(await APIPassage.read(new PassageReadRequest({
+      accessToken: tokens?.accessToken,
+      id: searchParams.get('id') || '',
+    })));
 
-  const passageReadRequest = new PassageReadRequest({ accessToken: accessToken, id: searchParams.id });
-  const response = await APIPassage.read(passageReadRequest);
-  if (response instanceof ErrorDefault) {
-    switch (response.message) {
+    fetch();
+  }, [searchParams, tokens?.accessToken]);
+
+  if (!auth || tokens === undefined) {
+    router.push('/');
+    return <></>;
+  }
+
+  // Loading skeleton
+  if (data === undefined) return <PassageSkeleton />;
+
+  // Error
+  if (data instanceof ErrorDefault) {
+    switch (data.message) {
       case ErrorDefaultPassageMessage.ErrPassageIDNotExist:
         return <PassageAlert type='ErrPassageIDNotExist' />;
       case ErrorDefaultPassageMessage.ErrIncorrectPassageUser:
@@ -28,5 +50,6 @@ export default async function Page({ searchParams }: PageProps): Promise<JSX.Ele
     }
   }
 
-  return <PassageView id={searchParams.id} ipassage={response} />;
+  // View
+  return <PassageView id={searchParams.get('id') || ''} ipassage={data} />;
 }

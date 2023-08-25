@@ -33,12 +33,12 @@ class TestsSearchRequest implements Composer {
     this.class = obj?.class || 0;
     this.complexity = obj?.complexity || '';
     this.page = obj?.page || 0;
-    this.searchParams = new URLSearchParams({
-      name: this?.name || '',
-      class: this.class === 0 ? '' : this.class.toString(),
-      complexity: this.complexity,
-      page: this.page === 0 ? '' : this.page.toString(),
-    });
+    this.searchParams = new URLSearchParams();
+
+    if (obj.name !== undefined) this.searchParams.append('name', obj.name);
+    if (obj.class !== undefined) this.searchParams.append('class', obj.class.toString());
+    if (obj.complexity !== undefined) this.searchParams.append('complexity', obj.complexity);
+    if (obj.page !== undefined) this.searchParams.append('page', obj.page.toString());
   }
 
   public compose = (host: string): Request => new Request(

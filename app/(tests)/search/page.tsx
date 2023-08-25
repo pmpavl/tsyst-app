@@ -1,45 +1,64 @@
-import * as React from 'react';
-import { cookies } from 'next/headers';
+'use client';
+
+import React from 'react';
+import { useSearchParams } from 'next/navigation';
 
 import {
   APITests, ErrorDefault, ErrorDefaultTestsMessage,
   TestsSearchRequest,
+  ITestsSearchResponse,
 } from '@/api';
 
-import { SearchPagination, TestCardView, TestsSearchAlert } from '@/components';
-
-type PageProps = { searchParams: { name: string, class: number, complexity: string, page: number } };
+import { AppContext } from '@/components/providers';
+import {
+  SearchPagination,
+  TestCardSkeleton, TestCardView,
+  TestsSearchAlert,
+} from '@/components';
 
 export const revalidate = 0;
 export const dynamic = 'force-dynamic';
 
-export default async function Page({ searchParams }: PageProps): Promise<JSX.Element> {
-  //? Костыль получения ACCESS_TOKEN в server компоненте
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('ACCESS_TOKEN')?.value;
+export default function Page(): JSX.Element {
+  const searchParams = useSearchParams();
+  const { tokens } = React.useContext(AppContext);
+  const [data, setData] = React.useState<ErrorDefault | ITestsSearchResponse | undefined>(undefined);
 
-  const testsSearchRequest = new TestsSearchRequest({
-    accessToken: accessToken,
-    name: searchParams.name,
-    class: searchParams.class,
-    complexity: searchParams.complexity,
-    page: searchParams.page,
-  });
-  const response = await APITests.search(testsSearchRequest);
-  if (response instanceof ErrorDefault) {
-    if (response.message === ErrorDefaultTestsMessage.ErrNothingFound) {
+  React.useEffect(() => {
+    const fetch = async () => setData(await APITests.search(new TestsSearchRequest({
+      accessToken: tokens?.accessToken,
+      name: searchParams.get('name') || undefined,
+      class: Number(searchParams.get('class')) || undefined,
+      complexity: searchParams.get('complexity') || undefined,
+      page: Number(searchParams.get('page')) || undefined,
+    })));
+
+    fetch();
+  }, [searchParams, tokens?.accessToken]);
+
+  // Loading skeleton
+  if (data === undefined) return (
+    <div className='grid w-full grid-cols-1 justify-center gap-4 tablet:grid-cols-2'>
+      {Array.from({ length: 20 }, (_, i) => i + 1).map((key) => <TestCardSkeleton key={key} />)}
+    </div>
+  );
+
+  // Error
+  if (data instanceof ErrorDefault) {
+    if (data.message === ErrorDefaultTestsMessage.ErrNothingFound) {
       return <TestsSearchAlert type='ErrNothingFound' />;
     }
 
     return <TestsSearchAlert type='Error' />;
   }
 
+  // View
   return (
     <>
       <div className='grid w-full grid-cols-1 justify-center gap-4 tablet:grid-cols-2'>
-        {response.cards.map((icard, key) => <TestCardView key={key} icard={icard} />)}
+        {data.cards.map((icard, key) => <TestCardView key={key} icard={icard} />)}
       </div>
-      <SearchPagination countPages={response.countPages} currentPage={Number(searchParams.page) || 1} />
+      <SearchPagination countPages={data.countPages} currentPage={Number(searchParams.get('page')) || 1} />
     </>
   );
 }

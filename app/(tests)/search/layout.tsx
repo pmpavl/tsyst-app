@@ -1,6 +1,6 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
-import { Search, TestCardSkeleton } from '@/components';
+import { Search } from '@/components';
 
 export default function SearchLayout({ children }: React.PropsWithChildren): JSX.Element {
   return (
@@ -14,13 +14,7 @@ export default function SearchLayout({ children }: React.PropsWithChildren): JSX
         </p>
       </div>
       <Search />
-      <Suspense fallback={
-        <div className='grid w-full grid-cols-1 justify-center gap-4 tablet:grid-cols-2'>
-          {Array.from({ length: 20 }, (_, i) => i + 1).map((key) => <TestCardSkeleton key={key} />)}
-        </div>
-      }>
-        {children}
-      </Suspense>
+      {children}
     </section>
   );
 }
