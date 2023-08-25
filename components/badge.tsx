@@ -23,7 +23,7 @@ function BadgeView({ type, str }: {
     case 'complexity':
       return <Badge variant={complexityVariant(str)} className='w-fit'> {str} </Badge>;
     case 'theme':
-      return <Badge variant='outline' className='w-fit flex-none bg-background first:ml-1 last:mr-1'> {str} </Badge>;
+      return <Badge variant='outline' className='w-fit flex-none whitespace-nowrap bg-background first:ml-1 last:mr-1'> {str} </Badge>;
     default:
       return <Badge variant='outline' className='w-fit'> {str} </Badge>;
   }
