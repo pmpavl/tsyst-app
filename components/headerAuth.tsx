@@ -73,15 +73,9 @@ function HeaderAuth(): JSX.Element {
           <div className='flex flex-col space-y-3 pt-3'>
             <Separator />
             <SheetClose asChild>
-              <Link href='/search' target='_self' className='flex w-full flex-row gap-2 text-sm'>
+              <Link href='/profile' target='_self' className='flex w-full flex-row gap-2 text-sm'>
                 Профиль
                 <Icons.user className='ml-auto h-5 w-5 text-xs tracking-widest opacity-60' />
-              </Link>
-            </SheetClose>
-            <SheetClose asChild>
-              <Link href='/' target='_self' className='flex w-full flex-row gap-2 text-sm'>
-                Настройки
-                <Icons.settings className='ml-auto h-5 w-5 text-xs tracking-widest opacity-60' />
               </Link>
             </SheetClose>
             <Separator />
