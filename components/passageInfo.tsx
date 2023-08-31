@@ -56,7 +56,7 @@ function PassageInfoMetaView({ passage }: { passage: Passage }): JSX.Element {
         </Badge>
       </div>
       <p className='max-w-[700px] text-lg text-muted-foreground'>
-        Тест завершен. Ваши ответы были записаны в системе для дальнейшего анализа. Спасибо, вы хороший киндер!
+        Тест завершён. Ваши ответы были записаны в системе для дальнейшего анализа. Спасибо, вы хороший киндер!
       </p>
     </>
   );
@@ -93,7 +93,7 @@ function PassageInfoView({ passage }: { passage: Passage }): JSX.Element {
           Задачи
         </h1>
         <p className='max-w-[700px] text-lg text-muted-foreground'>
-          Иноформация о решенных/нерешенных задачах.
+          Информация о решённых/нерешённых задачах.
         </p>
       </div>
       <div className='hide-scroll-bar flex items-start gap-2 overflow-x-scroll rounded-lg border bg-foreground/5 py-2 shadow-sm'>
