@@ -1,5 +1,5 @@
-# School testing system application
+# TSYST application
 
 ```
-At work
+Deprecated
 ```
