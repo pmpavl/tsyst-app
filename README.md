@@ -1,4 +1,4 @@
-# TSYST application
+# TSYST Application
 
 ```
 Deprecated
